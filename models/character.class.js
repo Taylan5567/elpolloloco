@@ -3,6 +3,7 @@ class Character extends MovableObject {
     currentImage = 0;
     speed = 5;
     energy = 100;
+    dead = false;
 
     offset = { top: 95, left: 15, right: 25, bottom: 5 };
 
@@ -89,6 +90,12 @@ class Character extends MovableObject {
         this.speedY = 20;  
         this.lastMove = new Date().getTime();
       }
+
+      isDead() {
+       if (this.energy <= 0) {
+           this.dead = true;
+       }
+    }
     
       
       animate() {
@@ -103,11 +110,10 @@ class Character extends MovableObject {
             if (this.world.keyboard.SPACE && !this.IsAboveGround()) {
                 this.speedY = 15;
                 this.lastMove = new Date().getTime();
-
             }
             
              
-            if (this.isDead()) {
+            if (this.dead) {
                 this.playAnimate(this.imgDead);
             } else if (this.isHurt()) {
                 this.playAnimate(this.imgHurt);

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./img/3_enemies_chicken/chicken_small/1_walk/3_w.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
@@ -16,6 +17,7 @@
     <script src="./models/movable-object.class.js"></script>
     <script src="./models/endboss.class.js"></script>
     <script src="./models/chicken.class.js"></script>
+    <script src="./models/tinychicken.class.js"></script>
     <script src="./models/character.class.js"></script>
     <script src="./models/world.class.js"></script>
     <script src="./models/cloud.class.js"></script>
@@ -44,7 +46,7 @@
         <button class="controlMobileright" id="right" ontouchstart="moveRightMobile()"><img src="./img/10_icons/arrow_forward.svg"></button>
         <button class="controlMobilejump" id="jump" onclick="jumpMobile()">Jump</button>
         <button class="controlMobilethrow" id="throw" onclick="throwMobile()">Throw</button>
-        <button class="mute" id="mute" onclick="muteGame()"><img src="./img/10_icons/mute.png" alt=""></button>
+        <button class="mute" id="mute" onclick="muteGame()"><img id="mutebutton" src="./img/10_icons/mute.png" alt=""></button>
 </div>
 
     <div class="overlay">

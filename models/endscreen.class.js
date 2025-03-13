@@ -50,12 +50,4 @@ class Endscreen extends DrawableObject {
     ctx.fillText("Again", this.againButton.x + this.againButton.width / 2, this.againButton.y + this.againButton.height / 2 + 7);
   }
 
-  isAgainButtonClicked(clickX, clickY) {
-    return (
-      clickX >= this.againButton.x &&
-      clickX <= this.againButton.x + this.againButton.width &&
-      clickY >= this.againButton.y &&
-      clickY <= this.againButton.y + this.againButton.height
-    );
-  }
 }

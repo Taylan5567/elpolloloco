@@ -20,7 +20,7 @@ class GameAudio {
     playEndbossSound() {
         this.endbossSound.currentTime = 0;
         this.endbossSound.play().catch(err => {
-            console.warn('Autoplay blockiert oder Fehler beim Starten des Endboss-Sounds:', err);
+            console.warn('endboss', err);
         });
         this.backgroundMusic.pause();
         }
@@ -28,24 +28,24 @@ class GameAudio {
     playBackgroundMusic() {
         this.backgroundMusic.currentTime = 0;
         this.backgroundMusic.play().catch(err => {
-            console.warn('Autoplay blockiert oder Fehler beim Starten der Musik:', err);
+            console.warn('background', err);
         });
     }
 
     pauseAudio(){
         this.endbossSound.volume = 0;
-        this.backgroundMusic.volume = 0
+        this.backgroundMusic.volume = 0;
         this.coinSound.volume = 0;
         this.bottleSound.volume = 0;
         this.hitSound.volume = 0;
     }
 
     playAudio(){
-        this.endbossSound.volume = 0;
-        this.backgroundMusic.volume = 0;
-        this.coinSound.volume = 0;
-        this.bottleSound.volume = 0;
-        this.hitSound.volume = 0;
+        this.endbossSound.volume = 1;
+        this.backgroundMusic.volume = 1;
+        this.coinSound.volume = 1;
+        this.bottleSound.volume = 1;
+        this.hitSound.volume = 1;
     }
     
     playCoinSound() {
@@ -72,18 +72,5 @@ class GameAudio {
         this.bottleSound.volume = volume;
         this.hitSound.volume = volume;
         this.endbossSound.volume = volume;
-    }
-
-    resetAudio() {
-        this.backgroundMusic.pause();
-        this.backgroundMusic.currentTime = 0;
-        this.coinSound.pause();
-        this.coinSound.currentTime = 0;
-        this.bottleSound.pause();
-        this.bottleSound.currentTime = 0;
-        this.hitSound.pause();
-        this.hitSound.currentTime = 0;
-        this.endbossSound.pause();
-        this.endbossSound.currentTime = 0;
     }
 }

@@ -1,10 +1,6 @@
 let canvas;
 let world;
 let keyboard  = new Keyboard();
-
-document.addEventListener('DOMContentLoaded', () => {
-    moveLeftMobile();
-  });
   
 
 
@@ -69,13 +65,21 @@ window.addEventListener("keyup", (e) => {
 function startEngine() {
     world.startGame();
     document.getElementById('start').style.display = "none";
+    document.getElementById('mute').style.display = "block";
     
-    var displayValue = (world.gameOver || world.gameWon) ? "none" : "block";
-    var controls = ["left", "right", "jump", "throw"];
-    
-    for (var i = 0; i < controls.length; i++) {
-        document.getElementById(controls[i]).style.display = displayValue;
-    }
+    setInterval(() => {
+        if (window.innerHeight < 600) {
+            document.getElementById('right').style.display = "block";
+            document.getElementById('left').style.display = "block";
+            document.getElementById('jump').style.display = "block";
+            document.getElementById('throw').style.display = "block";
+        } else {
+            document.getElementById('right').style.display = "none";
+            document.getElementById('left').style.display = "none";
+            document.getElementById('jump').style.display = "none";
+            document.getElementById('throw').style.display = "none";
+        }
+    }, 1);
 }
 
 
@@ -136,32 +140,17 @@ function fullscreenMobile() {
     }
 }
 
-
 function muteGame() {
-    let muteButton = document.getElementById('mute');
+    let muteButton = document.getElementById('mutebutton');
     muteButton.addEventListener('click', () => {
-        if (world.audio) {
-            if (world.audio.backgroundMusic.volume === 0) {
-                world.audio.playAudio();
-                muteButton.src = 'img/10_icons/volume.png';
-            } else {
-                world.audio.pauseAudio();
-                muteButton.src = 'img/10_icons/mute.png';
-            }
+        if (world.audio.backgroundMusic.volume === 0) {
+            world.audio.backgroundMusic.volume = 1;
+            world.audio.playAudio();
+            muteButton.src = "../img/10_icons/volume.png";
+        } else {
+            world.audio.backgroundMusic.volume = 0;
+            world.audio.pauseAudio();
+            muteButton.src = "../img/10_icons/mute.png";
         }
     });
 }
-
-
-function endgame() {
-    world.endscreen.endscreenShow()
-}
-
-
-
-let restartButton = document.getElementById('restart');
-restartButton.addEventListener('click', () => {
-    restartButton.disabled = true; // Button deaktivieren
-    world.restartGame();
-    restartButton.disabled = false; // Button nach 1 Sekunde wieder aktivieren
-});

@@ -4,6 +4,7 @@ function initLevel() {
 levelOne = new Level ([
     new Chicken(),
     new Endboss(),
+    new TinyChicken(),
 ], [
     new Cloud(),
 ], [

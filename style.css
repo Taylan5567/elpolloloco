@@ -147,6 +147,17 @@ h1{
     opacity:0;
 }
 
+#mute{
+    position: fixed;
+    margin-left: 576px;
+    margin-bottom: 15px;
+    padding: 4px 15px;
+}
+
+#mutebutton {
+    height: 25px;
+}
+
 @media only screen and (max-width : 600px){
 	.overlay{	display:block; }
 
@@ -201,6 +212,10 @@ h1{
         justify-content: center;
         flex-direction: column;
         gap: 20px;
+    }
+
+    #mute {
+       margin-left: 500px;
     }
 
     .howto {
@@ -318,6 +333,11 @@ h1{
             height:  429px;
             width: 932px;
         }
+
+    #mute {
+        margin-left: 576px;
+        margin-bottom: 18px;
+    }
     
     
     

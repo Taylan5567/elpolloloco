@@ -3,6 +3,7 @@ class Endboss extends MovableObject {
   speed = 2;
   world;
   audio = new GameAudio();
+  energy = 120;
 
   offset = { top: 0, left: 0, right: 0, bottom: 0 };
 
@@ -52,12 +53,11 @@ class Endboss extends MovableObject {
 
     this.hitboss = false;
     this.dead = false;
-    this.bossEnergy = 15;
   }
 
   hit() {
-    this.bossEnergy -= 5;
-    if (this.bossEnergy <= 0) {
+    this.energy -= 40;
+    if (this.energy <= 0) {
       this.dead = true;
       this.playAnimate(this.imgDead);
     } else {

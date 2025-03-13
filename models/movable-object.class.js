@@ -7,7 +7,6 @@ class MovableObject extends DrawableObject {
     money = 0;
     munition = 0;
     lastMove = 0;
-    energy = 100;
 
     applyGravity() {
         setInterval(() => {
@@ -60,7 +59,7 @@ class MovableObject extends DrawableObject {
     }
 
     isDead() {
-        return this.energy == 0
+        return this.energy <= 0;
     }
 
     isHurt() {

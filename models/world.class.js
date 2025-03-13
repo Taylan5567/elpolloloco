@@ -24,7 +24,6 @@ class World {
   endboss = null;
   muteIcon = new Image();
   unmuteIcon = new Image();
-  offset = { top: 0, right: 0, left: 0, bottom: 0 };
   muteButton = { x: 650, y: 420, width: 50, height: 50 };
   endscreen = new Endscreen(0, 0);
 
@@ -238,6 +237,7 @@ class World {
     if ((charBox.y + charBox.height) - 10 < bossBox.y) {
       this.character.jumpOnEnemy();
       this.endboss.hit();
+      this.bossStats.setPrecentage(this.endboss.energy);
     } else {
       this.character.hit();
       this.audio.playHitSound();
@@ -249,6 +249,7 @@ class World {
     if (typeof this.endboss.hit === 'function') {
       this.endboss.hit();
       bottle.splashAnimate();
+      this.bossStats.setPrecentage(this.endboss.energy);
     }
     setTimeout(() => {
       this.removeEnemy(this.endboss);
@@ -303,7 +304,7 @@ class World {
   checkBossfight() {
     if (!this.endboss) return;
     const distanceX = Math.abs(this.endboss.x - this.character.x);
-    if (distanceX < 300 && !this.bossMusicStarted) {
+    if (distanceX < 400 && !this.bossMusicStarted) {
       this.hadFirstContact = true;
       this.bossMusicStarted = true;
       this.audio.playEndbossSound();
@@ -372,11 +373,7 @@ class World {
   drawBlueFrame(ctx, mo) {
     if (mo.getHitbox && (mo instanceof Character || mo instanceof Chicken || mo instanceof Bottle || mo instanceof Coins || mo instanceof Endboss)) {
       const box = mo.getHitbox();
-      ctx.beginPath();
-      ctx.lineWidth = 4;
-      ctx.strokeStyle = 'blue';
       ctx.rect(box.x, box.y, box.width, box.height);
-      ctx.stroke();
     }
   }
 }
