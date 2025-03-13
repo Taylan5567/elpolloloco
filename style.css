@@ -1,0 +1,365 @@
+body {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-image: url('img/5_background/desert_background.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0;
+    min-height: 100vh;
+    min-width: 100%;
+    font-family: Bangers, sans-serif;
+}
+
+canvas {
+    background-color: black;
+}
+
+p {
+    font-size: 30px;
+}
+
+.descr {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex-direction: row-reverse;
+    gap: 90px;
+    margin: auto;
+}
+
+button {
+    padding: 20px 30px;
+    background-color: #cf6113;
+    font-family: Bangers, sans-serif;
+    font-size: 40px;
+    border-radius: 20px;
+    box-shadow: 7px 5px 10px black;
+    position: relative;
+    z-index: 10;
+}
+
+.howto {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 20px;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Bangers, sans-serif;
+    font-size: 35px;
+    text-align: center;
+    gap: 40px;
+}
+
+.control {
+    display: flex;
+    gap: 10px;
+}
+
+.controls button {
+    color:black;
+}
+
+.canvasContainer {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 20px;
+}
+
+.startButton {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    font-size: 37px;
+    padding: 8px 30px;
+    margin-bottom: 20px;
+}
+
+.controlMobileleft, .controlMobileright, .controlMobilejump, .controlMobilethrow, .mute {
+    display: none;
+}
+
+h1{
+	text-align:center;
+    margin: auto;
+    font-size: 50px;
+}
+
+.overlay{
+	display:none;
+	position:absolute;
+	top:0;
+	background-color:rgba(0,0,0,.7);
+	width:100%;
+	height:100%;
+}
+
+.iconContainer{
+	width:200px;
+	height:200px;
+	position:absolute;
+	left:50%;
+	top:50%;
+	margin-left:-100px;
+	margin-top:-100px;
+	
+}
+
+.iconContainer p{
+    display:inline-block;
+    width:100%;
+    text-align:center;
+    margin:0;
+    font-size:20px;
+    opacity:0;
+}
+
+.phone{
+	position:relative;
+	left:50%;
+	margin-left:-50px;
+	width:0;
+	height:0;
+	border:0 solid #000;
+	background:#a9a9a9;
+	border-radius:10px;
+	box-sizing: border-box;
+}
+
+.phone i{
+    text-align:center;
+    width:100%;
+    line-height:120px;
+    font-size:50px;
+    color:#454545;
+    opacity:0;
+}
+
+@media only screen and (max-width : 600px){
+	.overlay{	display:block; }
+
+	.overlay .phone{
+		animation:
+			sizeIncrease .5s forwards ease, 
+			borderIncrease .5s .5s forwards ease, 
+			rotateRight .7s 1s forwards ease;
+	}
+
+	.overlay .phone i{
+		animation:
+			fadeIn .5s .8s forwards ease;
+	}
+
+	.overlay .iconContainer p{
+		animation:
+			fadeIn .5s 1.3s forwards ease;
+	}
+}
+
+
+@keyframes sizeIncrease {
+     0%   { width: 0; height:10px; }
+	50%  { width: 100px; height: 10px; }
+  100% { width: 100px; height:160px; }
+}
+@keyframes borderIncrease { 
+	100% { border-width:20px 10px; } 
+}
+
+@keyframes fadeIn { 
+	100% { color:#000; opacity:1; } 
+}
+
+@keyframes rotateRight { 
+	100% { transform: rotate(90deg); } 
+}
+
+
+
+@media screen and (max-width: 900px){
+    canvas {
+        width: 95%;
+        height: 95%;
+    }
+
+    .descr {
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .howto {
+        width: 80%;
+    }
+
+    .startButton {
+        font-size: 25px;
+    }
+}
+
+
+
+@media screen and (max-width: 600px){
+    canvas {
+        display: none;
+    }
+
+    .descr {
+        display: none;
+    }
+
+    h1 {
+        display: none;
+    }
+
+    .canvasContainer {
+        display: none;
+    }
+    
+    .controlMobileleft {
+        position: absolute;        
+        display: none;
+        gap: 20px;
+        font-size: 10px;
+        padding: 8px 30px;
+        margin-bottom: 20px;        
+        margin-right: 370px;
+    }
+
+    .controlMobileright{
+        position: absolute;
+        display: none;
+        gap: 20px;
+        font-size: 10px;
+        padding: 8px 30px;
+        margin-bottom: 20px;        
+        margin-right: 184px;
+    }
+    
+    
+    .controlMobilejump{
+        position: absolute;
+        display: none;
+        gap: 20px;
+        font-size: 15px;
+        padding: 8px 30px;
+        margin-bottom: 20px;        
+        margin-left: 184px;
+    }
+    
+    
+    .controlMobilethrow {
+     position: absolute;        
+     display: none;
+    gap: 20px;
+    font-size: 10px;
+    padding: 8px 30px;
+    margin-bottom: 20px;        
+    margin-left: 370px;
+    }
+
+    .mute {
+        position: absolute;        
+        display: none;
+       gap: 20px;
+       font-size: 10px;
+       padding: 8px 30px;
+       margin-bottom: 20px;        
+       margin-left: 370px;
+       }
+}
+
+@media screen and (max-height: 600px) {
+    h1 {
+      display: none;
+    }
+
+    .controlMobileleft {
+        position: absolute;        
+        display: none;
+        gap: 20px;
+        font-size: 10px;
+        padding: 8px 30px;
+        margin-bottom: 20px;        
+        margin-right: 370px;
+    }
+
+    .controlMobileright{
+        position: absolute;
+        display: none;
+        gap: 20px;
+        font-size: 10px;
+        padding: 8px 30px;
+        margin-bottom: 20px;        
+        margin-right: 184px;
+        }  
+
+
+        .descr {
+            display: none;
+        }
+
+        canvas {
+            height:  429px;
+            width: 932px;
+        }
+    
+    
+    
+    .controlMobilejump{
+        position: absolute;
+        display: none;
+        gap: 20px;
+        font-size: 15px;
+        padding: 8px 30px;
+        margin-bottom: 20px;        
+        margin-left: 184px;
+    }
+    
+    
+    .controlMobilethrow {
+    position: absolute;        
+    display: none;
+    gap: 20px;
+    font-size: 15px;
+    padding: 8px 30px;
+    margin-bottom: 20px;        
+    margin-left: 390px;
+    }
+    
+
+    .mute {
+        position: absolute;        
+        display: none;
+        gap: 20px;
+        font-size: 15px;
+        padding: 8px 30px;
+        margin-bottom: 20px;        
+        margin-left: 390px;
+        }
+}
+
+@media screen and (min-height: 600px) and (max-height: 700px) {
+    .controlMobileleft, .controlMobileright, .controlMobilejump, .controlMobilethrow, .mute {
+        display: none;
+    }
+
+    .descr {
+        display: none;
+    }
+}
