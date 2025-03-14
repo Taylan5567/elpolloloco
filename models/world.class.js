@@ -21,7 +21,7 @@ class World {
   gameWon = false;               
   hadFirstContact = false;
   bossMusicStarted = false;
-  endboss = null;
+  endboss = new Endboss();
   muteIcon = new Image();
   unmuteIcon = new Image();
   muteButton = { x: 650, y: 420, width: 50, height: 50 };
@@ -84,6 +84,8 @@ class World {
     this.endboss = new Endboss();
   }
 
+  
+   
   draw() {
     this.clearCanvas();
     if (!this.isGameStarted) {
@@ -162,14 +164,7 @@ class World {
         this.checkCollectCoin();
         this.checkCollectBottle();
         this.checkBossfight();
-        if (this.character.energy <= 0) {
-          this.gameOver = true;
-          this.gameWon = false;
-        }
-        if (this.endboss && this.endboss.dead) {
-          this.gameOver = true;
-          this.gameWon = true;
-        }
+        this.checkGameOver();
       }
     }, 200);
 
@@ -229,6 +224,25 @@ class World {
       this.removeBottle(bottle);
     }
   }
+
+  checkGameOver() {
+    if (world.character.dead) {
+      this.showGameOverScreen();
+    } else if (world.endboss.dead) {
+      this.showWinScreen();
+    }
+  }
+
+  showGameOverScreen() {
+    let endscreen = new Endscreen();
+    endscreen.endscreenShowLose();
+  }
+
+  showWinScreen() {
+    let endscreen = new Endscreen();
+    endscreen.endscreenShowWin();
+  }
+
 
   checkEndbossCollision() {
     if (!this.endboss || !this.character.isColliding(this.endboss)) return;

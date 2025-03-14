@@ -9,14 +9,17 @@ class DrawableObject {
    
 
     draw(ctx){
-
         try {
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-            } catch(e) {
-                console.warn('Fehler beim Laden', e);
-                console.log('Dieses Bild konnte nicht geladen werden', this.img.src);
+            if (this.img) {
+                ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+            } else {
+                console.warn('Image is not loaded', this.img);
             }
+        } catch (e) {
+            console.warn('Fehler beim Laden', e);
+            console.log('Dieses Bild konnte nicht geladen werden', this.img ? this.img.src : 'undefined');
         }
+    }
 
     playAnimate(images){
         let i = this.currentImage % images.length;

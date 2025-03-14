@@ -154,3 +154,20 @@ function muteGame() {
         }
     });
 }
+
+
+function gameEnd() {
+    if (world.endboss.dead) {
+        document.getElementById('youwon').style.display = "block";
+        document.getElementById('right').style.display = "none";
+        document.getElementById('left').style.display = "none";
+        document.getElementById('jump').style.display = "none";
+        document.getElementById('throw').style.display = "none";
+    } else if (world.character.dead) {
+        document.getElementById('youlose').style.display = "block";
+        document.getElementById('right').style.display = "none";
+        document.getElementById('left').style.display = "none";
+        document.getElementById('jump').style.display = "none";
+        document.getElementById('throw').style.display = "none";
+    }
+}

@@ -58,9 +58,7 @@ class MovableObject extends DrawableObject {
         }
     }
 
-    isDead() {
-        return this.energy <= 0;
-    }
+    
 
     isHurt() {
        let timepassed = new Date().getTime() - this.lastHit;
