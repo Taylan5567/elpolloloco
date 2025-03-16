@@ -9,31 +9,21 @@ class World {
   coin = new CoinStatus();
   items = [new Coins()];
   enemy = [new Chicken()];
-  level = null; 
-  bottle = [new Bottle()];       
-  thrownBottles = [];            
+  level = null;
+  bottle = [new Bottle()];
+  thrownBottles = [];
   canvas;
   ctx;
   keyboard;
   camera_x = 0;
-  isGameStarted = false;
-  gameOver = false;
-  gameWon = false;               
   hadFirstContact = false;
   bossMusicStarted = false;
   endboss = new Endboss();
-  muteIcon = new Image();
-  unmuteIcon = new Image();
-  muteButton = { x: 650, y: 420, width: 50, height: 50 };
-  endscreen = new Endscreen(0, 0);
 
   constructor(canvas, keyboard) {
-    this.ctx = canvas.getContext('2d');
+    this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
-    this.muteIcon.src = 'img/10_icons/mute.png';
-    this.unmuteIcon.src = 'img/10_icons/volume.png';
-    this.canvas.addEventListener("click", this.handleCanvasClick.bind(this));
     this.draw();
     this.setWorld();
     this.run();
@@ -45,15 +35,15 @@ class World {
   setWorld() {
     this.character.world = this;
     if (this.level && this.level.enemies) {
-      this.level.enemies.forEach(enemy => enemy.world = this);
+      this.level.enemies.forEach((enemy) => (enemy.world = this));
     }
   }
 
   startGame() {
     this.isGameStarted = true;
     this.audio.playBackgroundMusic();
-    initLevel();             
-    this.level = levelOne;  
+    initLevel();
+    this.level = levelOne;
     this.setWorld();
     this.audio.playAudio();
     this.endboss = new Endboss();
@@ -72,6 +62,24 @@ class World {
     this.endscreen = null;
   }
 
+  stopGame() {
+    this.isGameStarted = false;
+    this.clearCanvas();
+    this.audio.pauseAudio();
+    console.log("Game stopped");
+  }
+
+  clearCanvas() {
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  loadImage(path) {
+    this.img = new Image();
+    this.img.src = path;
+  }
+
   resetGameData() {
     this.character = new Character();
     this.status = new Status();
@@ -84,18 +92,10 @@ class World {
     this.endboss = new Endboss();
   }
 
-  
-   
   draw() {
     this.clearCanvas();
     if (!this.isGameStarted) {
       this.start.drawStartScreen(this.ctx);
-    } else if (this.gameOver) {
-      this.endscreen = new Endscreen(0, 0, this.gameOver);
-      if (!this.endscreen) {
-        this.endscreen = new Endscreen(0, 0, this.gameWon);
-      }
-      this.endscreen.drawEndscreen(this.ctx);
     } else {
       this.drawGameWorld();
     }
@@ -114,7 +114,8 @@ class World {
   }
 
   setCamera() {
-    this.camera_x = -this.character.x + this.canvas.width * 0.15 - this.character.width / 2;
+    this.camera_x =
+      -this.character.x + this.canvas.width * 0.15 - this.character.width / 2;
     this.ctx.save();
     this.ctx.translate(this.camera_x, 0);
   }
@@ -143,20 +144,6 @@ class World {
     this.ctx.restore();
   }
 
-
-
-  handleCanvasClick(event) {
-    const rect = this.canvas.getBoundingClientRect();
-    const clickX = event.clientX - rect.left;
-    const clickY = event.clientY - rect.top;
-    if (!this.isGameStarted) {
-      this.startGame();
-    } else if (this.gameOver) {
-      this.restartGame();
-    } 
-  }
-
-
   run() {
     setInterval(() => {
       if (!this.gameOver) {
@@ -177,16 +164,16 @@ class World {
 
   checkCollisions() {
     if (!this.level || !this.level.enemies) return;
-    this.level.enemies.forEach(enemy => {
+    this.level.enemies.forEach((enemy) => {
       this.checkEnemyCollision(enemy);
-      this.thrownBottles.forEach(bottle => {
+      this.thrownBottles.forEach((bottle) => {
         if (bottle.isColliding(enemy)) {
           this.checkChickenhit(enemy, bottle);
         }
       });
     });
     if (this.endboss) {
-      this.thrownBottles.forEach(bottle => {
+      this.thrownBottles.forEach((bottle) => {
         if (bottle.isColliding(this.endboss)) {
           this.checkBossHit(bottle);
         }
@@ -212,9 +199,9 @@ class World {
   }
 
   checkChickenhit(enemy, bottle) {
-    if (typeof enemy.hitChicken === 'function') {
+    if (typeof enemy.hitChicken === "function") {
       enemy.hitChicken();
-    } else if (typeof enemy.hit === 'function') {
+    } else if (typeof enemy.hit === "function") {
       enemy.hit();
     }
     setTimeout(() => {
@@ -243,12 +230,11 @@ class World {
     endscreen.endscreenShowWin();
   }
 
-
   checkEndbossCollision() {
     if (!this.endboss || !this.character.isColliding(this.endboss)) return;
     const charBox = this.character.getHitbox();
     const bossBox = this.endboss.getHitbox();
-    if ((charBox.y + charBox.height) - 10 < bossBox.y) {
+    if (charBox.y + charBox.height - 10 < bossBox.y) {
       this.character.jumpOnEnemy();
       this.endboss.hit();
       this.bossStats.setPrecentage(this.endboss.energy);
@@ -260,7 +246,7 @@ class World {
   }
 
   checkBossHit(bottle) {
-    if (typeof this.endboss.hit === 'function') {
+    if (typeof this.endboss.hit === "function") {
       this.endboss.hit();
       bottle.splashAnimate();
       this.bossStats.setPrecentage(this.endboss.energy);
@@ -275,7 +261,8 @@ class World {
 
   checkThrowObjects() {
     if (this.keyboard.D && this.character.munition > 0) {
-      let offsetX = 50, offsetY = 50;
+      let offsetX = 50,
+        offsetY = 50;
       if (this.character.otherDirection) {
         offsetX = -50;
       }
@@ -355,7 +342,7 @@ class World {
   }
 
   addObjectstoMap(objects) {
-    objects.forEach(obj => {
+    objects.forEach((obj) => {
       this.addtoMap(obj);
     });
   }
@@ -385,7 +372,14 @@ class World {
   }
 
   drawBlueFrame(ctx, mo) {
-    if (mo.getHitbox && (mo instanceof Character || mo instanceof Chicken || mo instanceof Bottle || mo instanceof Coins || mo instanceof Endboss)) {
+    if (
+      mo.getHitbox &&
+      (mo instanceof Character ||
+        mo instanceof Chicken ||
+        mo instanceof Bottle ||
+        mo instanceof Coins ||
+        mo instanceof Endboss)
+    ) {
       const box = mo.getHitbox();
       ctx.rect(box.x, box.y, box.width, box.height);
     }

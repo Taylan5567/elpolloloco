@@ -1,16 +1,25 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="./img/3_enemies_chicken/chicken_small/1_walk/3_w.png" type="image/png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=arrow_back" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=arrow_forward" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      href="./img/3_enemies_chicken/chicken_small/1_walk/3_w.png"
+      type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bangers&display=swap"
+      rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=arrow_back" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=arrow_forward" />
     <title>El Pollo Loco</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./style.css" />
     <script src="./models/game-audio.class.js"></script>
     <script src="./models/drawable-object.class.js"></script>
     <script src="./models/keyboard.class.js"></script>
@@ -34,59 +43,98 @@
     <script src="./models/bottle.class.js"></script>
     <script src="./models/endscreen.class.js"></script>
     <script src="./js/game.js"></script>
-</head>
-<body onload="init()">
+  </head>
+  <body onload="init()">
     <h1>El Pollo Loco</h1>
     <div id="canvasContainers" class="canvasContainer">
-    <canvas id="canvas" width="720" height="480">
-    </canvas>
-        <img src="./img/You won, you lost/You win B.png" id="youwin" style="display: none;" alt="">
-        <img src="./img/You won, you lost/You lost B.png" id="youlost" style="display: none;" alt="">
-        <button class="startButton" id="start"  onclick="startEngine()">START</button>
-        <button class="gameOverButton" id="gameover" style="display: none;" onclick="gameOver()">RESTART</button>
-        <button class="controlMobileleft" id="left" ontouchstart="moveLeftMobile()"><img src="./img/10_icons/arrow_back.svg"></button>
-        <button class="controlMobileright" id="right" ontouchstart="moveRightMobile()"><img src="./img/10_icons/arrow_forward.svg"></button>
-        <button class="controlMobilejump" id="jump" onclick="jumpMobile()">Jump</button>
-        <button class="controlMobilethrow" id="throw" onclick="throwMobile()">Throw</button>
-        <button class="mute" id="mute" onclick="muteGame()"><img id="mutebutton" src="./img/10_icons/mute.png" alt=""></button>
-</div>
+      <canvas id="canvas" width="720" height="480"> </canvas>
+      <img
+        src="./img/You won, you lost/You win B.png"
+        id="youwin"
+        style="display: none"
+        alt="" />
+      <img
+        src="./img/5_background/first_half_background.png"
+        id="youwinbackground"
+        style="display: none"
+        alt="" />
+      <img
+        src="./img/You won, you lost/You lost B.png"
+        id="youlost"
+        style="display: none"
+        alt="" />
+      <button class="startButton" id="start" onclick="startEngine()">
+        START
+      </button>
+      <button
+        class="gameOverButton"
+        id="gameover"
+        style="display: none"
+        onclick="gameOver()">
+        RESTART
+      </button>
+      <button
+        class="controlMobileleft"
+        id="left"
+        ontouchstart="moveLeftMobile()">
+        <img src="./img/10_icons/arrow_back.svg" />
+      </button>
+      <button
+        class="controlMobileright"
+        id="right"
+        ontouchstart="moveRightMobile()">
+        <img src="./img/10_icons/arrow_forward.svg" />
+      </button>
+      <button class="controlMobilejump" id="jump" onclick="jumpMobile()">
+        Jump
+      </button>
+      <button class="controlMobilethrow" id="throw" onclick="throwMobile()">
+        Throw
+      </button>
+      <button class="mute" id="mute" onclick="muteGame()">
+        <img id="mutebutton" src="./img/10_icons/mute.png" alt="" />
+      </button>
+    </div>
 
     <div class="overlay">
-        <div class="iconContainer">
-            <div class="phone">
-                <i class="fa fa-repeat"></i>
-            </div>
-            <p>Rotate your device!</p>
+      <div class="iconContainer">
+        <div class="phone">
+          <i class="fa fa-repeat"></i>
         </div>
+        <p>Rotate your device!</p>
+      </div>
     </div>
-
 
     <div class="descr">
-        <div class="imprint">
-            <form action="./imprint.html">
-            <button>IMPRINT</button>
+      <div class="imprint">
+        <form action="./imprint.html">
+          <button>IMPRINT</button>
         </form>
-        </div>
-        <div class="howto">
+      </div>
+      <div class="howto">
         <h2>How to Play</h2>
         <div class="controls">
-            <div class="run">
+          <div class="run">
             <span>RUN</span>
             <div class="control">
-            <button disabled><img src="./img/10_icons/arrow_back.svg"></button>
-            <button disabled><img src="./img/10_icons/arrow_forward.svg"></button>
-        </div>
-        </div>
-        <div class="jump">
+              <button disabled>
+                <img src="./img/10_icons/arrow_back.svg" />
+              </button>
+              <button disabled>
+                <img src="./img/10_icons/arrow_forward.svg" />
+              </button>
+            </div>
+          </div>
+          <div class="jump">
             <span>Jump</span>
             <button disabled>SPACE</button>
-        </div>
-        <div class="throw">            
+          </div>
+          <div class="throw">
             <span>Throw</span>
             <button disabled>D</button>
+          </div>
         </div>
-        </div>
-        </div>
+      </div>
     </div>
-</body>
+  </body>
 </html>
