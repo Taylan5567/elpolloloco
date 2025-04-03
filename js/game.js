@@ -2,6 +2,12 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 
+/**
+ * Initializes the game by getting the canvas element and creating a new World object.
+ * This is the entry point of the game.
+ * @function init
+ *
+ */
 function init() {
   canvas = document.getElementById("canvas");
   world = new World(canvas, keyboard);
@@ -57,6 +63,13 @@ window.addEventListener("keyup", (e) => {
   }
 });
 
+/**
+ * Starts the game by calling the startGame method of the World object and
+ * making the START button disappear and the MUTE button appear. Also, it
+ * makes the control buttons for mobile devices appear or disappear
+ * depending on the height of the window.
+ * @function startEngine
+ */
 function startEngine() {
   world.startGame();
   document.getElementById("start").style.display = "none";
@@ -77,10 +90,22 @@ function startEngine() {
   }, 1);
 }
 
+/**
+ * Restarts the game by calling the restartGame method of the World object.
+ * This is used after the game is over (either by winning or losing) to
+ * reset the game state and prepare the game for a new start.
+ * @function gameOver
+ */
 function gameOver() {
   world.restartGame();
 }
 
+/**
+ * Handles the touchstart and touchend events for the "left" button in
+ * mobile mode. When the button is pressed, it sets the LEFT key to true, and
+ * when the button is released, it sets the LEFT key to false. This
+ * allows the player to move left when the button is pressed.
+ */
 function moveLeftMobile() {
   document.getElementById("left").addEventListener("touchstart", () => {
     keyboard.LEFT = true;
@@ -90,6 +115,14 @@ function moveLeftMobile() {
   });
 }
 
+/*************  ✨ Codeium Command ⭐  *************/
+/**
+ * Handles the touchstart and touchend events for the "right" button in
+ * mobile mode. When the button is pressed, it sets the RIGHT key to true, and
+ * when the button is released, it sets the RIGHT key to false. This
+ * allows the player to move right when the button is pressed.
+ */
+/******  1ba7ef7d-f924-49d1-a84b-023ad33862ea  *******/
 function moveRightMobile() {
   document.getElementById("right").addEventListener("touchstart", () => {
     keyboard.RIGHT = true;
@@ -99,6 +132,12 @@ function moveRightMobile() {
   });
 }
 
+/**
+ * Handles the touchstart and touchend events for the "jump" button in
+ * mobile mode. When the button is pressed, it sets the SPACE key to true, and
+ * when the button is released, it sets the SPACE key to false. This
+ * allows the player to jump when the button is pressed.
+ */
 function jumpMobile() {
   document.getElementById("jump").addEventListener("touchstart", () => {
     keyboard.SPACE = true;
@@ -108,6 +147,12 @@ function jumpMobile() {
   });
 }
 
+/**
+ * Handles the touchstart and touchend events for the "throw" button in
+ * mobile mode. When the button is pressed, it sets the D key to true, and
+ * when the button is released, it sets the D key to false. This
+ * allows the player to throw a fireball when the button is pressed.
+ */
 function throwMobile() {
   document.getElementById("throw").addEventListener("touchstart", () => {
     keyboard.D = true;
@@ -117,42 +162,41 @@ function throwMobile() {
   });
 }
 
-function fullscreenMobile() {
-  let fullscreen = document.getElementById("canvasContainer");
+/**
+ * Toggles the mute state of the game's background music. When called,
+ * it checks the current volume of the background music. If muted (volume is 0),
+ * it sets the volume back to 1 and updates the mute button icon to indicate sound is on.
+ * If not muted, it mutes the background music by setting the volume to 0 and updates
+ * the mute button icon to indicate sound is off.
+ */
 
-  if (window.innerHeight < 500 || window.innerHeight > 500) {
-    if (fullscreen.requestFullscreen) {
-      fullscreen.requestFullscreen();
-    } else if (fullscreen.mozRequestFullScreen) {
-      fullscreen.mozRequestFullScreen();
-    } else if (fullscreen.webkitRequestFullscreen) {
-      fullscreen.webkitRequestFullscreen();
-    } else if (fullscreen.msRequestFullscreen) {
-      fullscreen.msRequestFullscreen();
-    }
+function muteGame() {
+  if (world.audio.backgroundMusic.volume === 0) {
+    world.audio.backgroundMusic.volume = 1;
+    world.audio.playAudio();
+    document.getElementById("mutebutton").src = "../img/10_icons/volume.png";
+  } else {
+    world.audio.backgroundMusic.volume = 0;
+    world.audio.pauseAudio();
+    document.getElementById("mutebutton").src = "../img/10_icons/mute.png";
   }
 }
 
-function muteGame() {
-  let muteButton = document.getElementById("mutebutton");
-  muteButton.addEventListener("click", () => {
-    if (world.audio.backgroundMusic.volume === 0) {
-      world.audio.backgroundMusic.volume = 1;
-      world.audio.playAudio();
-      muteButton.src = "../img/10_icons/volume.png";
-    } else {
-      world.audio.backgroundMusic.volume = 0;
-      world.audio.pauseAudio();
-      muteButton.src = "../img/10_icons/mute.png";
-    }
-  });
-}
-
+/**
+ * Checks if the game has ended either by the player winning or losing, and
+ * displays the respective screens. If the player has won, the endboss is dead.
+ * If the player has lost, the character is dead. The function is called in the
+ * game loop and is used to stop the game when it has ended.
+ */
 function gameEnd() {
   if (world.endboss.dead) {
     const youWinElement = document.getElementById("youwin");
     if (youWinElement) {
       youWinElement.style.display = "block";
+      document.getElementById("youwinbackground").style.display = "block";
+      document.getElementById("mute").style.display = "none";
+      document.getElementById("gameover").style.display = "block";
+      hideGameControls();
       gameStop();
     }
     hideGameControls();
@@ -160,24 +204,60 @@ function gameEnd() {
     const youLoseElement = document.getElementById("youlose");
     if (youLoseElement) {
       youLoseElement.style.display = "block";
+      document.getElementById("youwinbackground").style.display = "block";
+      document.getElementById("mute").style.display = "none";
+      hideGameControls();
       gameStop();
     }
     hideGameControls();
   }
 }
 
+/**
+ * Hides all game controls (right, left, jump, throw) by setting their
+ * display property to "none". This is used to stop the game when the
+ * boss or the character are dead.
+ */
 function hideGameControls() {
-  const controls = ["right", "left", "jump", "throw"];
-  controls.forEach((control) => {
-    const element = document.getElementById(control);
-    if (element) {
-      element.style.display = "none";
-    }
-  });
+  document.getElementById("right").style.display = "none";
+  document.getElementById("left").style.display = "none";
+  document.getElementById("jump").style.display = "none";
+  document.getElementById("throw").style.display = "none";
 }
 
+/**
+ * Stops the game by calling the stopGame() method on the world object
+ * when the boss or the character are dead.
+ */
 function gameStop() {
   if (world.endboss.dead || world.character.dead) {
     world.stopGame();
   }
+}
+
+/**
+ * Resets the game state by hiding certain UI elements, resetting the world state,
+ * and preparing the game for a new start. Specifically, it hides win/lose screens,
+ * ensures the mute button is visible and set to unmuted, displays the start button,
+ * and resets the `hadFirstContact` state in the world.
+ */
+function restartGame() {
+  world.restartGame();
+  const elementsToHide = ["youwin", "youlose", "youwinbackground", "gameover"];
+  elementsToHide.forEach((id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.style.display = "none";
+    }
+  });
+  const muteElement = document.getElementById("mute");
+  if (muteElement) {
+    muteElement.style.display = "block";
+  }
+  const muteButtonElement = document.getElementById("mutebutton");
+  if (muteButtonElement) {
+    muteButtonElement.src = "../img/10_icons/volume.png";
+  }
+  document.getElementById("start").style.display = "block";
+  world.hadFirstContact = false;
 }

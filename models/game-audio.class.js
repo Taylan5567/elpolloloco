@@ -2,7 +2,7 @@ class GameAudio {
   constructor() {
     this.backgroundMusic = new Audio("audio/background.mp3");
     this.backgroundMusic.loop = true;
-    this.backgroundMusic.volume = 0;
+    this.backgroundMusic.volume = 1;
 
     this.coinSound = new Audio("audio/coin.mp3");
     this.coinSound.volume = 0;
@@ -19,6 +19,7 @@ class GameAudio {
 
   playEndbossSound() {
     this.endbossSound.currentTime = 0;
+    this.endbossSound.volume = 1;
     this.endbossSound.play().catch((err) => {
       console.warn("endboss", err);
     });
@@ -41,7 +42,6 @@ class GameAudio {
   }
 
   playAudio() {
-    this.endbossSound.volume = 1;
     this.backgroundMusic.volume = 1;
     this.coinSound.volume = 1;
     this.bottleSound.volume = 1;
@@ -72,5 +72,14 @@ class GameAudio {
     this.bottleSound.volume = volume;
     this.hitSound.volume = volume;
     this.endbossSound.volume = volume;
+  }
+
+  resetAudio() {
+    this.pauseAudio();
+    this.backgroundMusic.currentTime = 0;
+    this.coinSound.currentTime = 0;
+    this.bottleSound.currentTime = 0;
+    this.hitSound.currentTime = 0;
+    this.endbossSound.currentTime = 0;
   }
 }

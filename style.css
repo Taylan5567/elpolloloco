@@ -75,7 +75,8 @@ button {
   gap: 20px;
 }
 
-.startButton {
+.startButton,
+.gameOverButton {
   position: absolute;
   display: flex;
   justify-content: center;
@@ -167,6 +168,12 @@ h1 {
   margin-bottom: 195px;
 }
 
+#youwinbackground {
+  position: absolute;
+  height: 480px;
+  width: 720px;
+}
+
 @media only screen and (max-width: 600px) {
   .overlay {
     display: block;
@@ -242,7 +249,8 @@ h1 {
     width: 80%;
   }
 
-  .startButton {
+  .startButton,
+  .gameOverButton {
     font-size: 25px;
   }
 }
@@ -382,6 +390,10 @@ h1 {
     padding: 8px 30px;
     margin-bottom: 20px;
     margin-left: 390px;
+  }
+
+  #youwinbackground {
+    width: 100%;
   }
 }
 
