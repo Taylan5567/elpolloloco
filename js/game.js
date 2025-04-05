@@ -115,14 +115,6 @@ function moveLeftMobile() {
   });
 }
 
-/*************  ✨ Codeium Command ⭐  *************/
-/**
- * Handles the touchstart and touchend events for the "right" button in
- * mobile mode. When the button is pressed, it sets the RIGHT key to true, and
- * when the button is released, it sets the RIGHT key to false. This
- * allows the player to move right when the button is pressed.
- */
-/******  1ba7ef7d-f924-49d1-a84b-023ad33862ea  *******/
 function moveRightMobile() {
   document.getElementById("right").addEventListener("touchstart", () => {
     keyboard.RIGHT = true;
@@ -188,28 +180,49 @@ function muteGame() {
  * If the player has lost, the character is dead. The function is called in the
  * game loop and is used to stop the game when it has ended.
  */
-function gameEnd() {
-  if (world.endboss.dead) {
-    const youWinElement = document.getElementById("youwin");
-    if (youWinElement) {
-      youWinElement.style.display = "block";
-      document.getElementById("youwinbackground").style.display = "block";
-      document.getElementById("mute").style.display = "none";
-      document.getElementById("gameover").style.display = "block";
-      hideGameControls();
-      gameStop();
-    }
+function checkGameEnd() {
+  if (!world || !world.character || !world.endboss) {
+    return;
+  }
+  if (world.character.dead) {
+    checkCharacterDead();
+    clearInterval(endGameInterval);
+  } else if (world.endboss.dead) {
+    checkBossDead();
+    clearInterval(endGameInterval);
+  }
+}
+const endGameInterval = setInterval(() => {
+  checkGameEnd();
+}, 100);
+
+/**
+ * Checks if the boss is dead and handles the endgame logic for winning.
+ */
+function checkBossDead() {
+  const youWinElement = document.getElementById("youwin");
+  if (youWinElement) {
+    youWinElement.style.display = "block";
+    document.getElementById("youwinbackground").style.display = "block";
+    document.getElementById("mute").style.display = "none";
+    document.getElementById("gameover").style.display = "block";
     hideGameControls();
-  } else if (world.character.dead) {
-    const youLoseElement = document.getElementById("youlose");
-    if (youLoseElement) {
-      youLoseElement.style.display = "block";
-      document.getElementById("youwinbackground").style.display = "block";
-      document.getElementById("mute").style.display = "none";
-      hideGameControls();
-      gameStop();
-    }
+    world.stopGame();
+  }
+}
+
+/**
+ * Checks if the character is dead and handles the endgame logic for losing.
+ */
+function checkCharacterDead() {
+  const youLoseElement = document.getElementById("youlost");
+  if (youLoseElement) {
+    youLoseElement.style.display = "block";
+    document.getElementById("youwinbackground").style.display = "block";
+    document.getElementById("mute").style.display = "none";
+    document.getElementById("gameover").style.display = "block";
     hideGameControls();
+    world.stopGame();
   }
 }
 
@@ -232,6 +245,7 @@ function hideGameControls() {
 function gameStop() {
   if (world.endboss.dead || world.character.dead) {
     world.stopGame();
+    console.log("Game stopped");
   }
 }
 
@@ -243,21 +257,15 @@ function gameStop() {
  */
 function restartGame() {
   world.restartGame();
-  const elementsToHide = ["youwin", "youlose", "youwinbackground", "gameover"];
-  elementsToHide.forEach((id) => {
+  ["youwin", "youlost", "youwinbackground", "gameover"].forEach((id) => {
     const element = document.getElementById(id);
-    if (element) {
-      element.style.display = "none";
-    }
+    if (element) element.style.display = "none";
   });
-  const muteElement = document.getElementById("mute");
-  if (muteElement) {
-    muteElement.style.display = "block";
-  }
-  const muteButtonElement = document.getElementById("mutebutton");
-  if (muteButtonElement) {
-    muteButtonElement.src = "../img/10_icons/volume.png";
-  }
-  document.getElementById("start").style.display = "block";
+  const muteButton = document.getElementById("mute");
+  if (muteButton) muteButton.style.display = "block";
+  const muteIcon = document.getElementById("mutebutton");
+  if (muteIcon) muteIcon.src = "../img/10_icons/volume.png";
+  const startButton = document.getElementById("start");
+  if (startButton) startButton.style.display = "block";
   world.hadFirstContact = false;
 }

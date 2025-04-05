@@ -7,6 +7,8 @@ class MovableObject extends DrawableObject {
   money = 0;
   munition = 0;
   lastMove = 0;
+  lastHitTime = 0;
+  hitCooldown = 100;
 
   applyGravity() {
     setInterval(() => {
@@ -25,6 +27,13 @@ class MovableObject extends DrawableObject {
     }
   }
 
+  isDead() {
+    if (world.character.energy <= 0) {
+      world.character.dead = true;
+      console.log("Character dead");
+    }
+  }
+
   moveRight() {
     this.x += this.speed;
     this.otherDirection = false;
@@ -37,11 +46,16 @@ class MovableObject extends DrawableObject {
   }
 
   hit() {
-    this.energy -= 2;
-    if (this.energy < 0) {
-      this.energy = 0;
-    } else {
-      this.lastHit = new Date().getTime();
+    const currentTime = new Date().getTime();
+    if (currentTime - this.lastHitTime >= this.hitCooldown) {
+      this.energy -= 2;
+      if (this.energy < 0) {
+        this.energy = 0;
+        this.dead = true;
+      } else {
+        this.lastHit = currentTime; // Update the last hit timestamp
+        this.lastHitTime = currentTime; // Update the cooldown timestamp
+      }
     }
   }
 

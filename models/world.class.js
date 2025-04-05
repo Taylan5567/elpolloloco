@@ -80,11 +80,12 @@ class World {
    *
    * @memberof World
    */
-
   restartGame() {
     this.isGameStarted = false;
     this.gameOver = false;
     this.gameWon = false;
+    this.hadFirstContact = false; // Reset boss fight trigger
+    this.bossMusicStarted = false; // Reset boss music trigger
     this.resetGameData();
     initLevel();
     this.level = levelOne;

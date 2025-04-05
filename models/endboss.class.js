@@ -61,8 +61,6 @@ class Endboss extends MovableObject {
       this.playAnimate(this.imgDead);
       if (typeof gameEnd === "function") {
         gameEnd();
-      } else {
-        console.error("gameEnd function is not defined");
       }
     } else {
       this.hitboss = true;

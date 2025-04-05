@@ -162,7 +162,8 @@ h1 {
   height: 25px;
 }
 
-#youwin {
+#youwin,
+#youlost {
   position: absolute;
   height: 100px;
   margin-bottom: 195px;

@@ -68,6 +68,15 @@ class Character extends MovableObject {
     "img/2_character_pepe/1_idle/long_idle/I-20.png",
   ];
 
+  /**
+   * Initializes the Character instance by loading various image sets
+   * for different states (walking, jumping, dead, hurt, idle, long idle)
+   * and setting the initial image to the first walking image.
+   * Applies gravity and starts the character animation.
+   * Sets the initial energy level to 100 and marks the character as not dead.
+   * Also, initiates the dead fall animation logic.
+   */
+
   constructor() {
     super();
     this.loadImages(this.imgWalking);
@@ -82,20 +91,55 @@ class Character extends MovableObject {
     this.animate();
     this.energy = 100;
     this.dead = false;
-    this.isDead();
+    this.deadFall();
   }
 
+  /**
+   * When the character jumps on an enemy, this function is called. It sets the
+   * character's vertical speed to 20 and the last move time to the current time.
+   * This simulates the character jumping on the enemy. The character's vertical
+   * speed is then decreased by gravity every frame, which causes the character
+   * to fall down the screen. The last move time is used to check if the character
+   * has been idle for a certain amount of time, which will trigger the character's
+   * long idle animation.
+   */
   jumpOnEnemy() {
     this.speedY = 20;
     this.lastMove = new Date().getTime();
   }
 
-  isDead() {
-    if (this.energy <= 0) {
-      this.dead = true;
-      console.log("Character dead");
-    }
+  /**
+   * Sets an interval that, if the character's energy is 0, will make the character
+   * fall down the screen, simulating gravity, until the character reaches the
+   * bottom of the screen.
+   *
+   * The character's y position is increased by the speedY value and the speedY
+   * value is decreased by 5 every frame (60 times per second). The interval is
+   * reset every frame, so the character will only fall if the energy is 0.
+   */
+  deadFall() {
+    setInterval(() => {
+      if (this.energy == 0) {
+        this.speedY = 10;
+        this.y += this.speedY;
+      }
+    }, 1000 / 60);
   }
+
+  /**
+   * Animates the character based on the state of the keyboard.
+   *
+   * The character is animated as follows:
+   * - If the character is dead, the dead animation is played.
+   * - If the character is hurt, the hurt animation is played.
+   * - If the character is idle, the idle animation is played.
+   * - If the character is jumping, the jumping animation is played.
+   * - If the character is moving left or right, the walking animation is played.
+   * - If the character is long idle, the long idle animation is played.
+   * - If none of the above conditions are met, the character is not animated.
+   *
+   * The animation is updated every 50 milliseconds.
+   */
 
   animate() {
     setInterval(() => {
