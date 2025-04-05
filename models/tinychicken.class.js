@@ -9,6 +9,17 @@ class TinyChicken extends Chicken {
 
   offset = { top: 20, left: 0, right: 0, bottom: 5 };
 
+  /**
+   * Creates a new TinyChicken object.
+   *
+   * This constructor calls the super-constructor to load the walking and dead
+   * images, and then sets the initial position, height, width, and speed of the
+   * TinyChicken object. The x-position is set to a random value between 390 and
+   * 890, and the y-position is set to 350. The height and width are set to 90, and
+   * the speed is set to a random value between 1 and 1.5.
+   * @memberof TinyChicken
+   * @instance
+   */
   constructor() {
     super();
     this.loadImages(this.imgWalking);
@@ -22,6 +33,12 @@ class TinyChicken extends Chicken {
     this.speed = 1 + Math.random() * 0.5;
   }
 
+  /**
+   * Animates the TinyChicken. If the TinyChicken is hit, it will play the dead animation.
+   * Otherwise, it will play the walking animation and move to the left.
+   * @memberof TinyChicken
+   * @instance
+   */
   animate() {
     setInterval(() => {
       if (this.hit) {

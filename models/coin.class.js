@@ -3,6 +3,12 @@ class Coins extends DrawableObject {
 
   imgCoins = ["img/8_coin/coin_1.png", "img/8_coin/coin_1.png"];
 
+  /**
+   * Initializes a new instance of the Coins class. Loads the coin images and sets the initial
+   * image to be displayed. Randomly sets the coin's x and y position within specified ranges.
+   * Also sets the height and width of the coin.
+   */
+
   constructor() {
     super();
     this.loadImages(this.imgCoins);

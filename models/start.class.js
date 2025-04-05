@@ -9,6 +9,12 @@ class Start extends DrawableObject {
   x = 0;
   y = 0;
 
+  /**
+   * Creates a new Start object.
+   *
+   * @param {number} x - The x coordinate of the start screen.
+   * @param {number} y - The y coordinate of the start screen.
+   */
   constructor(x, y) {
     super();
     this.loadImage("img/9_intro_outro_screens/start/startscreen_1.png");
@@ -18,6 +24,10 @@ class Start extends DrawableObject {
     this.width = 720;
   }
 
+  /**
+   * Draws the start screen on the given 2D context.
+   * @param {CanvasRenderingContext2D} ctx - The 2D context to draw on.
+   */
   drawStartScreen(ctx) {
     this.draw(ctx);
   }

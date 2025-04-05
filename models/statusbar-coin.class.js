@@ -10,6 +10,11 @@ class CoinStatus extends DrawableObject {
 
   money = 0;
 
+  /**
+   * Initializes a new instance of the CoinStatus class. Loads images for the
+   * coin status bar and sets the initial position and dimensions. Sets the
+   * initial cash amount to 0.
+   */
   constructor() {
     super();
     this.loadImages(this.imgMoney);
@@ -20,12 +25,25 @@ class CoinStatus extends DrawableObject {
     this.setCash(0);
   }
 
+  /**
+   * Updates the cash amount and the displayed coin image based on the current money count.
+   * Sets the money field to the provided amount, resolves the appropriate image index
+   * for the coin status bar, and updates the image to reflect the current money status.
+   *
+   * @param {number} money - The current money count to set and display on the status bar.
+   */
+
   setCash(money) {
     this.money = money;
     let path = this.imgMoney[this.resolveImageIndexCoin()];
     this.img = this.imageCache[path];
   }
 
+  /**
+   * Resolves the appropriate image index for the coin status bar based on the current money count.
+   * Returns an index into the imgMoney array that corresponds to the current money status.
+   * @returns {number} The image index for the current money status.
+   */
   resolveImageIndexCoin() {
     if (this.money == 0) {
       return 0;

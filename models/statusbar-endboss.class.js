@@ -8,6 +8,12 @@ class EndbossStatus extends DrawableObject {
     "img/7_statusbars/2_statusbar_endboss/green100.png",
   ];
 
+  /**
+   * Creates a new EndbossStatus object.
+   * This object will have the width of 200px and the height of 60px.
+   * It will be placed at the x position of 500px and the y position of 0px.
+   * The precentage of the endboss status bar will be set to 100.
+   */
   constructor() {
     super();
     this.loadImages(this.imgStatus);
@@ -19,12 +25,28 @@ class EndbossStatus extends DrawableObject {
     this.setPrecentage(100);
   }
 
+  /**
+   * Sets the precentage of the endboss status bar.
+   * This will update the image displayed in the status bar.
+   * @param {number} precentage the precentage of the endboss status bar.
+   */
   setPrecentage(precentage) {
     this.precentage = precentage;
     let path = this.imgStatus[this.resolveImageIndex()];
     this.img = this.imageCache[path];
   }
 
+  /**
+   * Returns the index of the image in the this.imgStatus array, depending on the precentage value.
+   * The index is determined by the following conditions:
+   * - precentage == 100: index = 5
+   * - precentage > 80: index = 4
+   * - precentage > 60: index = 3
+   * - precentage > 40: index = 2
+   * - precentage > 20: index = 1
+   * - precentage >= 0: index = 0
+   * @returns {number} the index of the image in the this.imgStatus array
+   */
   resolveImageIndex() {
     if (this.precentage == 100) {
       return 5;

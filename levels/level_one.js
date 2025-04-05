@@ -1,8 +1,18 @@
 let levelOne;
 
+/**
+ * Initializes the first level of the game by creating a new Level object.
+ * The level includes a set of enemies (Chickens, Endboss, TinyChickens),
+ * clouds, and a sequence of background objects. The background objects
+ * are created with specific images and positions to form the layered
+ * visual environment of the level.
+ */
+
 function initLevel() {
   levelOne = new Level(
     [new Chicken(), new Endboss(), new TinyChicken()],
+    [new Chicken(), new TinyChicken()],
+    [new Chicken(), new TinyChicken()],
     [new Cloud()],
     [
       new BackgroundObject(

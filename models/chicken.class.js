@@ -15,6 +15,16 @@ class Chicken extends MovableObject {
   dead = false;
   energy = 5;
 
+  /**
+   * Creates a new Chicken object.
+   *
+   * This constructor calls the super-constructor to initialize the object, loads the walking and dead
+   * images, and then sets the initial position, speed, and animation of the Chicken object. The x-position
+   * is set to a random value between 400 and 900, the speed is set to a random value between 0.15 and 0.65,
+   * and the animation is started.
+   * @memberof Chicken
+   * @instance
+   */
   constructor() {
     super();
     this.loadImages(this.imgWalking);
@@ -26,6 +36,12 @@ class Chicken extends MovableObject {
     this.animate();
   }
 
+  /**
+   * Decrements the energy of the Chicken and sets the hit status to true if the energy is above 0.
+   * If the energy reaches 0, the Chicken is set to be dead.
+   * @memberof Chicken
+   * @instance
+   */
   hitChicken() {
     this.energy--;
     if (this.energy <= 0) {
@@ -35,6 +51,12 @@ class Chicken extends MovableObject {
     }
   }
 
+  /**
+   * Animates the Chicken object. If the Chicken is hit, it will play the dead animation and not move.
+   * Otherwise, it will play the walking animation and move to the left.
+   * @memberof Chicken
+   * @instance
+   */
   animate() {
     setInterval(() => {
       if (this.hit) {

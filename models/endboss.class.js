@@ -35,6 +35,12 @@ class Endboss extends MovableObject {
     "img/4_enemie_boss_chicken/5_dead/G26.png",
   ];
 
+  /**
+   * Constructs a new Endboss object, initializing its properties and loading
+   * necessary images. Sets the initial position, size, energy, and status
+   * flags. Starts the animation sequence for the Endboss.
+   */
+
   constructor() {
     super();
     this.loadImages(this.imgWalking);
@@ -53,30 +59,42 @@ class Endboss extends MovableObject {
     this.dead = false;
   }
 
+  /**
+   * Reduces the energy of the endboss by 40. If the endboss's energy
+   * drops to 0 or below, marks the endboss as dead, plays the death
+   * animation, and calls the gameEnd function if it exists. If the
+   * endboss is not dead, temporarily sets the hitboss flag to true
+   * for 1 second.
+   */
   hit() {
-    this.energy -= 40;
-    if (this.energy <= 0) {
-      this.energy = 0; // Ensure energy does not go below 0
+    this.energy = Math.max(0, this.energy - 40);
+    if (this.energy === 0) {
       this.dead = true;
       this.playAnimate(this.imgDead);
-      if (typeof gameEnd === "function") {
-        gameEnd();
-      }
+      if (typeof gameEnd === "function") gameEnd();
     } else {
       this.hitboss = true;
-      setTimeout(() => {
-        this.hitboss = false;
-      }, 1000);
+      setTimeout(() => (this.hitboss = false), 1000);
     }
   }
 
+  /**
+   * Animates the endboss. If the world exists and the endboss has not yet
+   * had its first contact with the character, moves the endboss to the left
+   * at an interval of 16.67 ms (60 times per second). If the endboss is dead,
+   * plays the death animation and clears the animation intervals. If the
+   * endboss is hit, plays the hurt animation. If the endboss is not hit and
+   * the frame index is greater than 8, plays the alert animation, resets the
+   * frame index to 0, sets the speed to 2, and plays the walking animation
+   * after a 2 second delay. If none of the above conditions are met, plays
+   * the walking animation and increments the frame index.
+   */
   animation() {
     this.animateInterval = setInterval(() => {
       if (this.world && !this.world.hadFirstContact) {
         this.moveLeft();
       }
     }, 1000 / 60);
-
     let i = 0;
     this.animationInterval = setInterval(() => {
       if (this.dead) {

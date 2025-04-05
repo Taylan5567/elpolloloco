@@ -1,4 +1,8 @@
 class GameAudio {
+  /**
+   * Initializes the game audio by creating Audio objects for background music, coin, bottle, hit, and endboss sounds.
+   * The volume of the background music is set to 1 (full volume), and the volume of the other sounds is set to 0 (no volume).
+   */
   constructor() {
     this.backgroundMusic = new Audio("audio/background.mp3");
     this.backgroundMusic.loop = true;
@@ -17,6 +21,12 @@ class GameAudio {
     this.endbossSound.volume = 0;
   }
 
+  /**
+   * Plays the endboss sound and pauses the background music.
+   * @method playEndbossSound
+   * @memberof GameAudio
+   * @instance
+   */
   playEndbossSound() {
     this.endbossSound.currentTime = 0;
     this.endbossSound.volume = 1;
@@ -26,6 +36,12 @@ class GameAudio {
     this.backgroundMusic.pause();
   }
 
+  /**
+   * Plays the background music and resets the current time to 0.
+   * @method playBackgroundMusic
+   * @memberof GameAudio
+   * @instance
+   */
   playBackgroundMusic() {
     this.backgroundMusic.currentTime = 0;
     this.backgroundMusic.play().catch((err) => {
@@ -33,6 +49,12 @@ class GameAudio {
     });
   }
 
+  /**
+   * Pauses all audio by setting their volume to 0.
+   * @method pauseAudio
+   * @memberof GameAudio
+   * @instance
+   */
   pauseAudio() {
     this.endbossSound.volume = 0;
     this.backgroundMusic.volume = 0;
@@ -41,6 +63,24 @@ class GameAudio {
     this.hitSound.volume = 0;
   }
 
+  /**
+   * Restores the volume of all audio elements to full volume (1).
+   * This includes background music, coin sound, bottle sound,
+   * and hit sound.
+   *
+   * @method playAudio
+   * @memberof GameAudio
+   * @instance
+   */
+
+  /**
+   * Restores the volume of all audio elements to full volume (1).
+   * This includes background music, coin sound, bottle sound, and hit sound.
+   *
+   * @method playAudio
+   * @memberof GameAudio
+   * @instance
+   */
   playAudio() {
     this.backgroundMusic.volume = 1;
     this.coinSound.volume = 1;
@@ -48,6 +88,19 @@ class GameAudio {
     this.hitSound.volume = 1;
   }
 
+  /**
+   * Plays the coin sound effect. The sound is reset to the beginning before playing.
+   * @method playCoinSound
+   * @memberof GameAudio
+   * @instance
+   */
+
+  /**
+   * Plays the coin sound effect. The sound is reset to the beginning before playing.
+   * @method playCoinSound
+   * @memberof GameAudio
+   * @instance
+   */
   playCoinSound() {
     this.coinSound.currentTime = 0;
     this.coinSound.play();
@@ -58,15 +111,35 @@ class GameAudio {
     this.bottleSound.play();
   }
 
+  /**
+   * Plays the hit sound effect. The sound is reset to the beginning before playing.
+   * @method playHitSound
+   * @memberof GameAudio
+   * @instance
+   */
   playHitSound() {
     this.hitSound.currentTime = 0;
     this.hitSound.play();
   }
 
+  /**
+   * Sets the volume of the background music to the given value.
+   * @method setMusicVolume
+   * @memberof GameAudio
+   * @instance
+   * @param {number} volume - The new volume value. Must be between 0 and 1.
+   */
   setMusicVolume(volume) {
     this.backgroundMusic.volume = volume;
   }
 
+  /**
+   * Sets the volume of the sound effects to the given value.
+   * @method setEffectsVolume
+   * @memberof GameAudio
+   * @instance
+   * @param {number} volume - The new volume value. Must be between 0 and 1.
+   */
   setEffectsVolume(volume) {
     this.coinSound.volume = volume;
     this.bottleSound.volume = volume;
@@ -74,6 +147,12 @@ class GameAudio {
     this.endbossSound.volume = volume;
   }
 
+  /**
+   * Resets all audio elements to their initial state by setting their current time to 0 and pausing them.
+   * @method resetAudio
+   * @memberof GameAudio
+   * @instance
+   */
   resetAudio() {
     this.pauseAudio();
     this.backgroundMusic.currentTime = 0;

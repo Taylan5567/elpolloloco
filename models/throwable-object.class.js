@@ -22,6 +22,14 @@ class ThrowableObject extends MovableObject {
 
   currentImage = 0;
 
+  /**
+   * Creates a new instance of ThrowableObject at the given position.
+   * It calls the parent's constructor, sets the initial image, and sets the
+   * initial properties of the object. It also calls the throwBottle and animate
+   * methods to start the throwing animation and the position update.
+   * @param {number} x - The x position of the object.
+   * @param {number} y - The y position of the object.
+   */
   constructor(x, y) {
     super();
     this.hasSplashed = false;
@@ -37,6 +45,11 @@ class ThrowableObject extends MovableObject {
     this.animate();
   }
 
+  /**
+   * Throws the bottle in the air. Sets the bottle to thrown and sets its initial
+   * vertical speed to 10. Applies gravity to the bottle and moves the bottle
+   * horizontally by 10 pixels each 25 milliseconds.
+   */
   throwBottle() {
     this.isThrown = true;
     this.speedY = 10;
@@ -46,6 +59,13 @@ class ThrowableObject extends MovableObject {
     }, 25);
   }
 
+  /**
+   * Animates the splash animation for the thrown bottle. This function runs at an
+   * interval of 50 milliseconds and checks if the current image index is greater
+   * than or equal to the length of the splash image array. If true, the current
+   * image index is reset to 0 and the animation loop is started with the playAnimate
+   * method. If false, the animation loop is not started.
+   */
   splashAnimate() {
     setInterval(() => {
       if (this.currentImage >= this.imgSplash.length) {
@@ -54,6 +74,13 @@ class ThrowableObject extends MovableObject {
       }
     }, 50);
   }
+
+  /**
+   * Animates the throwable object by cycling through its splash and throw images.
+   * Calls splashAnimate() to determine if the splash animation should play. If
+   * splash animation is not active and the object is thrown, it plays the throw
+   * animation. This function runs at a set interval of 50 milliseconds.
+   */
 
   animate() {
     setInterval(() => {
