@@ -186,29 +186,4 @@ class MovableObject extends DrawableObject {
       this.addtoMap(obj);
     });
   }
-
-  /**
-   * Flips the image horizontally by saving the current context, translating the canvas,
-   * and scaling it negatively along the x-axis. This is typically used to draw a
-   * MovableObject that is facing the opposite direction.
-   * @param {MovableObject} mo The MovableObject whose image is to be flipped.
-   */
-
-  flipImage(mo) {
-    this.ctx.save();
-    this.ctx.translate(mo.width, 0);
-    this.ctx.scale(-1, 1);
-    mo.x = mo.x * -1;
-  }
-
-  /**
-   * Reverses the effects of flipImage by flipping the x coordinate back and restoring the canvas context.
-   * This is typically used to draw a MovableObject that is facing the opposite direction.
-   * @param {MovableObject} mo The MovableObject whose image was flipped.
-   * @memberof World
-   */
-  flipImageBack(mo) {
-    mo.x = mo.x * -1;
-    this.ctx.restore();
-  }
 }
