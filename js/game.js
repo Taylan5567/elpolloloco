@@ -168,8 +168,8 @@ function muteGame() {
 
   world.audio.backgroundMusic.volume = isMuted ? 1 : 0;
   muteButton.src = isMuted
-    ? "/img/10_icons/volume.png"
-    : "/img/10_icons/mute.png";
+    ? "img/10_icons/volume.png"
+    : "img/10_icons/mute.png";
   isMuted ? world.audio.playAudio() : world.audio.pauseAudio();
 }
 
