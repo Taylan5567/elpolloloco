@@ -1,6 +1,5 @@
 class World {
   /**
-   * @constructor
    * @param {boolean} isGameStarted - Indicates if the game has started.
    */
   start = new Start(0, 0);
@@ -26,8 +25,7 @@ class World {
 
   /**
    * Creates an instance of World.
-   * @param {*} canvas
-   * @param {*} keyboard
+   * @param {*} canvas @param {*} keyboard
    */
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -68,8 +66,7 @@ class World {
   }
 
   /**
-   * Restarts the game by resetting the game state to default, clearing the
-   * current level, resetting the game data, initializing a new level and
+   * Restarts the game by resetting the game state to default, clearing the current level, resetting the game data, initializing a new level and
    * restarting the game loop.
    */
   restartGame() {
@@ -107,8 +104,7 @@ class World {
   }
 
   /**
-   * Loads an image from the given path and assigns it to the img property
-   * of the World object.
+   * Loads an image from the given path and assigns it to the img property of the World object.
    * @param {string} path - The path to the image.
    */
   loadImage(path) {
@@ -135,7 +131,6 @@ class World {
    * Draws the current state of the game onto the canvas.
    * Clears the canvas first, then checks if the game has started.
    * If not started, draws the start screen; otherwise, draws the game world.
-   * Continuously requests the next animation frame to update the canvas.
    */
   draw() {
     this.clearCanvas();
@@ -158,10 +153,8 @@ class World {
 
   /**
    * Draws the current state of the game world onto the canvas.
-   * 
    * Sets the camera to the character's position, draws the background objects,
    * draws the UI elements, and draws the foreground objects.
-
    */
   drawGameWorld() {
     this.setCamera();
@@ -200,8 +193,7 @@ class World {
   }
 
   /**
-   * Draws the foreground objects (character, enemies, bottles, items) on the canvas,
-   * adjusting for the camera's position.
+   * Draws the foreground objects (character, enemies, bottles, items) on the canvas, adjusting for the camera's position.
    */
   drawForeground() {
     this.ctx.save();
@@ -233,8 +225,7 @@ class World {
   }
 
   /**
-   * Checks for collisions between the character and enemies,
-   * and between thrown bottles and enemies and the endboss.
+   * Checks for collisions between the character and enemies, and between thrown bottles and enemies and the endboss.
    */
   checkCollisions() {
     if (!this.level?.enemies) return;
@@ -251,7 +242,6 @@ class World {
 
   /**
    * Checks if the character collides with an enemy.
-   * If above, the character jumps; otherwise, it loses energy.
    * @param {Enemy} enemy - The enemy to check for collision.
    */
   checkEnemyCollision(enemy) {
@@ -273,7 +263,6 @@ class World {
   /**
    * Handles enemy hits by the character or a thrown bottle, removing them after a delay.
    * @param {Enemy} enemy - The enemy to hit.
-   * @param {Bottle} bottle - The bottle that hit the enemy (optional).
    */
   checkChickenhit(enemy, bottle) {
     if (typeof enemy.hitChicken === "function") {
