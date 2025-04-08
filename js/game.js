@@ -171,10 +171,6 @@ function muteGame() {
     ? "../img/10_icons/volume.png"
     : "../img/10_icons/mute.png";
   isMuted ? world.audio.playAudio() : world.audio.pauseAudio();
-
-  if (world.audio.playEndbossSound()) {
-    world.audio.playEndbossSound() = isMuted ? 1 : 0;
-  }
 }
 
 /**
@@ -248,7 +244,6 @@ function hideGameControls() {
 function gameStop() {
   if (world.endboss.dead || world.character.dead) {
     world.stopGame();
-    console.log("Game stopped");
   }
 }
 
