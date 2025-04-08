@@ -163,14 +163,17 @@ function throwMobile() {
  */
 
 function muteGame() {
-  if (world.audio.backgroundMusic.volume === 0) {
-    world.audio.backgroundMusic.volume = 1;
-    world.audio.playAudio();
-    document.getElementById("mutebutton").src = "../img/10_icons/volume.png";
-  } else {
-    world.audio.backgroundMusic.volume = 0;
-    world.audio.pauseAudio();
-    document.getElementById("mutebutton").src = "../img/10_icons/mute.png";
+  const muteButton = document.getElementById("mutebutton");
+  const isMuted = world.audio.backgroundMusic.volume === 0;
+
+  world.audio.backgroundMusic.volume = isMuted ? 1 : 0;
+  muteButton.src = isMuted
+    ? "../img/10_icons/volume.png"
+    : "../img/10_icons/mute.png";
+  isMuted ? world.audio.playAudio() : world.audio.pauseAudio();
+
+  if (world.audio.playEndbossSound()) {
+    world.audio.playEndbossSound() = isMuted ? 1 : 0;
   }
 }
 

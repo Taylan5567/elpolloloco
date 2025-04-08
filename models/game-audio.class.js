@@ -28,11 +28,12 @@ class GameAudio {
    * @instance
    */
   playEndbossSound() {
+    if (this.playAudio) {
+      return;
+    }
     this.endbossSound.currentTime = 0;
     this.endbossSound.volume = 1;
-    this.endbossSound.play().catch((err) => {
-      console.warn("endboss", err);
-    });
+    this.endbossSound.play();
     this.backgroundMusic.pause();
   }
 
@@ -44,9 +45,7 @@ class GameAudio {
    */
   playBackgroundMusic() {
     this.backgroundMusic.currentTime = 0;
-    this.backgroundMusic.play().catch((err) => {
-      console.warn("background", err);
-    });
+    this.backgroundMusic.play();
   }
 
   /**
@@ -62,16 +61,6 @@ class GameAudio {
     this.bottleSound.volume = 0;
     this.hitSound.volume = 0;
   }
-
-  /**
-   * Restores the volume of all audio elements to full volume (1).
-   * This includes background music, coin sound, bottle sound,
-   * and hit sound.
-   *
-   * @method playAudio
-   * @memberof GameAudio
-   * @instance
-   */
 
   /**
    * Restores the volume of all audio elements to full volume (1).
@@ -94,18 +83,17 @@ class GameAudio {
    * @memberof GameAudio
    * @instance
    */
-
-  /**
-   * Plays the coin sound effect. The sound is reset to the beginning before playing.
-   * @method playCoinSound
-   * @memberof GameAudio
-   * @instance
-   */
   playCoinSound() {
     this.coinSound.currentTime = 0;
     this.coinSound.play();
   }
 
+  /**
+   * Plays the bottle sound effect. The sound is reset to the beginning before playing.
+   * @method playBottleSound
+   * @memberof GameAudio
+   * @instance
+   */
   playBottleSound() {
     this.bottleSound.currentTime = 0;
     this.bottleSound.play();

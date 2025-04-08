@@ -453,4 +453,23 @@ class World {
       this.flipImageBack(mo);
     }
   }
+  /**
+   * @param {MovableObject} mo The MovableObject whose image is to be flipped.
+   */
+
+  flipImage(mo) {
+    this.ctx.save();
+    this.ctx.translate(mo.width, 0);
+    this.ctx.scale(-1, 1);
+    mo.x = mo.x * -1;
+  }
+
+  /**
+   * @param {MovableObject} mo The MovableObject whose image was flipped.
+   * @memberof World
+   */
+  flipImageBack(mo) {
+    mo.x = mo.x * -1;
+    this.ctx.restore();
+  }
 }

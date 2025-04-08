@@ -26,11 +26,11 @@ class TinyChicken extends Chicken {
     this.loadImages(this.imgDead);
     this.loadImage(this.imgWalking[0]);
 
-    this.x = 390 + Math.random() * 500;
+    this.x = 390 + Math.random() * 1500;
     this.y = 350;
     this.height = 90;
     this.width = 90;
-    this.speed = 1 + Math.random() * 0.5;
+    this.speed = 3 + Math.random() * 0.5;
   }
 
   /**

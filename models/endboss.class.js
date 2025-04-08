@@ -94,7 +94,7 @@ class Endboss extends MovableObject {
       if (this.world && !this.world.hadFirstContact) {
         this.moveLeft();
       }
-    }, 1000 / 60);
+    }, 1000 / 30);
     let i = 0;
     this.animationInterval = setInterval(() => {
       if (this.dead) {

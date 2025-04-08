@@ -10,9 +10,16 @@ let levelOne;
 
 function initLevel() {
   levelOne = new Level(
-    [new Chicken(), new Endboss(), new TinyChicken()],
-    [new Chicken(), new TinyChicken()],
-    [new Chicken(), new TinyChicken()],
+    [
+      new Chicken(),
+      new Chicken(),
+      new Chicken(),
+      new Chicken(),
+      new Endboss(),
+      new TinyChicken(),
+      new TinyChicken(),
+      new TinyChicken(),
+    ],
     [new Cloud()],
     [
       new BackgroundObject(
