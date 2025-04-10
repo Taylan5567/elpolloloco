@@ -32,17 +32,17 @@ class ThrowableObject extends MovableObject {
    */
   constructor(x, y) {
     super();
-    this.hasSplashed = false;
     this.loadImages(this.imgThrow);
     this.loadImages(this.imgSplash);
     this.loadImage(this.imgThrow[0]);
-    this.loadImage(this.imgSplash[0]);
     this.x = x;
     this.y = y;
     this.height = 60;
     this.width = 50;
     this.throwBottle();
     this.animate();
+    this.isSplashing = false;
+    this.bottleSplash();
   }
 
   /**
@@ -59,20 +59,10 @@ class ThrowableObject extends MovableObject {
     }, 25);
   }
 
-  /**
-   * Animates the splash animation for the thrown bottle. This function runs at an
-   * interval of 50 milliseconds and checks if the current image index is greater
-   * than or equal to the length of the splash image array. If true, the current
-   * image index is reset to 0 and the animation loop is started with the playAnimate
-   * method. If false, the animation loop is not started.
-   */
-  splashAnimate() {
-    setInterval(() => {
-      if (this.currentImage >= this.imgSplash.length) {
-        this.currentImage = 0;
-        this.playAnimate(this.imgSplash);
-      }
-    }, 50);
+  bottleSplash() {
+    this.isSplashing = true;
+    this.hasSplashed = true;
+    this.playAnimate(this.imgSplash);
   }
 
   /**
@@ -81,12 +71,9 @@ class ThrowableObject extends MovableObject {
    * splash animation is not active and the object is thrown, it plays the throw
    * animation. This function runs at a set interval of 50 milliseconds.
    */
-
   animate() {
     setInterval(() => {
-      if (this.splashAnimate()) {
-        this.playAnimate(this.imgSplash);
-      } else if (this.isThrown) {
+      if (this.isThrown) {
         this.playAnimate(this.imgThrow);
       }
     }, 50);

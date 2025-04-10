@@ -21,4 +21,10 @@ class Bottle extends DrawableObject {
     this.height = 90;
     this.width = 100;
   }
+
+  animate() {
+    if (this.isSplashing) {
+      this.playAnimate(this.imgSplash);
+    }
+  }
 }

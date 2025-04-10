@@ -87,11 +87,13 @@ class Character extends MovableObject {
     this.loadImages(this.imgLongIdle);
 
     this.loadImage(this.imgWalking[0]);
+    this.loadImage(this.imgJumping[0]);
     this.applyGravity();
     this.animate();
     this.energy = 100;
     this.dead = false;
     this.deadFall();
+    this.speed = 5;
   }
 
   /**
@@ -126,6 +128,10 @@ class Character extends MovableObject {
     }, 1000 / 60);
   }
 
+  moveLeft() {
+    this.x -= this.speed;
+    this.lastMove = new Date().getTime();
+  }
   /**
    * Animates the character based on the state of the keyboard.
    *
@@ -160,17 +166,17 @@ class Character extends MovableObject {
 
       if (this.dead) {
         this.playAnimate(this.imgDead);
+      } else if (this.IsAboveGround()) {
+        this.playAnimate(this.imgJumping);
       } else if (this.isHurt()) {
         this.playAnimate(this.imgHurt);
       } else if (this.isLongIdle()) {
         this.playAnimate(this.imgLongIdle);
       } else if (this.isIdle()) {
         this.playAnimate(this.imgIdle);
-      } else if (this.IsAboveGround() || this.speedY > 0) {
-        this.playAnimate(this.imgJumping);
       } else if (this.world.keyboard.LEFT || this.world.keyboard.RIGHT) {
         this.playAnimate(this.imgWalking);
       }
-    }, 50);
+    }, 107);
   }
 }
