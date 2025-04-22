@@ -1,5 +1,8 @@
 class Bottle extends DrawableObject {
+  world;
   offset = { top: 10, left: 45, right: 25, bottom: 5 };
+  character;
+  endboss;
 
   /**
    * Creates a new instance of Bottle at a random x position and
@@ -11,6 +14,7 @@ class Bottle extends DrawableObject {
    * @param {number} x The x position of the bottle.
    * @param {number} y The y position of the bottle.
    */
+
   constructor() {
     super();
     this.loadImage(["img/6_salsa_bottle/1_salsa_bottle_on_ground.png"]);
@@ -20,11 +24,6 @@ class Bottle extends DrawableObject {
 
     this.height = 90;
     this.width = 100;
-  }
-
-  animate() {
-    if (this.isSplashing) {
-      this.playAnimate(this.imgSplash);
-    }
+    this.isSplashing = false;
   }
 }

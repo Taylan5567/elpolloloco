@@ -19,7 +19,6 @@ class World {
   ctx;
   keyboard;
   camera_x = 0;
-  hadFirstContact = false;
   bossMusicStarted = false;
   endboss = new Endboss();
 
@@ -36,13 +35,13 @@ class World {
     this.run();
     this.getCoins();
     this.getBottles();
-    this.checkBossfight();
   }
   /**
    * Sets the world for the character and enemies.
    */
   setWorld() {
     this.character.world = this;
+    this.endboss.world = this;
     if (this.level && this.level.enemies) {
       this.level.enemies.forEach((enemy) => (enemy.world = this));
     }
@@ -129,8 +128,6 @@ class World {
 
   /**
    * Draws the current state of the game onto the canvas.
-   * Clears the canvas first, then checks if the game has started.
-   * If not started, draws the start screen; otherwise, draws the game world.
    */
   draw() {
     this.clearCanvas();
@@ -215,7 +212,7 @@ class World {
       this.checkThrowObjects();
       this.checkCollectCoin();
       this.checkCollectBottle();
-      this.checkBossfight();
+      world.endboss.checkBossfight();
     }, 200);
     setInterval(() => {
       if (!this.gameOver) {
@@ -270,12 +267,13 @@ class World {
     } else if (typeof enemy.hit === "function") {
       enemy.hit();
     }
+    if (bottle && typeof bottle.bottleSplash === "function") {
+      bottle.bottleSplash(); // Spiele die Splash-Animation der Flasche ab
+    }
     setTimeout(() => {
       this.removeEnemy(enemy);
-    }, 500);
-    if (bottle) {
       this.removeBottle(bottle);
-    }
+    }, 500);
   }
 
   /**
@@ -303,17 +301,17 @@ class World {
   checkBossHit(bottle) {
     if (typeof this.endboss.hit === "function") {
       this.endboss.hit();
-      bottle.splashAnimate();
       this.bossStats.setPrecentage(this.endboss.energy);
     }
-    setTimeout(() => {
-      this.removeEnemy(this.endboss);
-    }, 500);
-    if (bottle) {
-      this.removeBottle(bottle);
+    if (bottle && typeof bottle.bottleSplash === "function") {
+      bottle.bottleSplash();
+      setTimeout(() => {
+        if (bottle) {
+          this.removeBottle(bottle);
+        }
+      }, 800);
     }
   }
-
   /**
    * Handles bottle throwing based on keyboard input and available munition, updating stats and checking collisions.
    */
@@ -360,19 +358,6 @@ class World {
         this.bottle.splice(index, 1);
       }
     });
-  }
-
-  /**
-   * Checks if the player has entered the boss fight area.
-   */
-  checkBossfight() {
-    if (!this.endboss) return;
-    const distanceX = Math.abs(this.endboss.x - this.character.x);
-    if (distanceX < 400 && !this.bossMusicStarted && !this.hadFirstContact) {
-      this.hadFirstContact = true;
-      this.bossMusicStarted = true;
-      this.audio.playEndbossSound();
-    }
   }
 
   /**
@@ -445,7 +430,6 @@ class World {
   /**
    * @param {MovableObject} mo The MovableObject whose image is to be flipped.
    */
-
   flipImage(mo) {
     this.ctx.save();
     this.ctx.translate(mo.width, 0);

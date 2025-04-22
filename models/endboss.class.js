@@ -1,7 +1,5 @@
 class Endboss extends MovableObject {
   currentImage = 0;
-  speed = 2;
-  world;
   audio = new GameAudio();
 
   offset = { top: 0, left: 0, right: 0, bottom: 0 };
@@ -48,74 +46,99 @@ class Endboss extends MovableObject {
     this.loadImages(this.imgAlert);
     this.loadImages(this.imgDead);
     this.loadImage(this.imgWalking[0]);
-    this.loadImage(this.imgHurt[0]);
-    this.x = 2300;
+    this.x = 700;
     this.y = 60;
     this.height = 400;
     this.width = 300;
-    this.animation();
     this.energy = 120;
     this.hitboss = false;
     this.dead = false;
+    this.phase = 1;
+    this.animateInterval = null;
+    this.animationInterval = null;
+    this.world;
   }
 
-  /**
-   * Reduces the energy of the endboss by 40. If the endboss's energy
-   * drops to 0 or below, marks the endboss as dead, plays the death
-   * animation, and calls the gameEnd function if it exists. If the
-   * endboss is not dead, temporarily sets the hitboss flag to true
-   * for 1 second.
-   */
-  hit() {
-    this.energy = Math.max(0, this.energy - 40);
-    if (this.energy === 0) {
-      this.dead = true;
-      this.playAnimate(this.imgDead);
-      if (typeof gameEnd === "function") gameEnd();
-    } else {
-      this.hitboss = true;
-      setTimeout(() => (this.hitboss = false), 1000);
+  checkBossfight(character, audio) {
+    const distanceX = Math.abs(this.x - this.world.character.x);
+
+    if (distanceX < 400 && !this.hadFirstContact) {
+      this.hadFirstContact = true;
+      world.audio.playEndbossSound();
+      this.startFight(this.world.character);
     }
   }
 
-  /**
-   * Animates the endboss. If the world exists and the endboss has not yet
-   * had its first contact with the character, moves the endboss to the left
-   * at an interval of 16.67 ms (60 times per second). If the endboss is dead,
-   * plays the death animation and clears the animation intervals. If the
-   * endboss is hit, plays the hurt animation. If the endboss is not hit and
-   * the frame index is greater than 8, plays the alert animation, resets the
-   * frame index to 0, sets the speed to 2, and plays the walking animation
-   * after a 2 second delay. If none of the above conditions are met, plays
-   * the walking animation and increments the frame index.
-   */
-  animation() {
+  startFight(character) {
+    this.speed = 2;
+    this.animateMovement(character);
+    this.animateActions();
+  }
+
+  animateMovement(character) {
     this.animateInterval = setInterval(() => {
-      if (this.world && !this.world.hadFirstContact) {
-        this.moveLeft();
+      if (this.dead) {
+        clearInterval(this.animateInterval);
+        return;
       }
-    }, 1000 / 30);
-    let i = 0;
+
+      const distanceX = this.x - this.world.character.x;
+      if (distanceX > 0) {
+        this.moveLeft();
+      } else {
+        this.moveRight();
+      }
+    }, 1000 / 30); // 30 FPS
+  }
+
+  animateActions() {
     this.animationInterval = setInterval(() => {
       if (this.dead) {
         clearInterval(this.animationInterval);
-        clearInterval(this.animateInterval);
         this.playAnimate(this.imgDead);
         return;
       }
+
       if (this.hitboss) {
         this.playAnimate(this.imgHurt);
-      } else if (i > 8) {
+        this.hitboss = false;
+      } else if (this.phase === 1) {
+        this.playAnimate(this.imgWalking);
+        console.log("Phase 1");
+      } else if (this.phase === 2) {
         this.playAnimate(this.imgAlert);
-        setTimeout(() => {
-          i = 0;
-          this.speed = 2;
-          this.playAnimate(this.imgWalking);
-        }, 2000);
-      } else {
+      } else if (this.phase === 3) {
         this.playAnimate(this.imgWalking);
       }
-      i++;
     }, 200);
+  }
+
+  updatePhase() {
+    if (this.energy > 70) {
+      this.phase = 1; // Phase 1
+    } else if (this.energy > 30) {
+      this.phase = 2; // Phase 2
+    } else {
+      this.phase = 3; // Phase 3
+    }
+  }
+
+  hit() {
+    if (this.energy > 0) {
+      this.energy -= 10;
+      this.hitboss = true;
+      this.updatePhase();
+      if (this.energy <= 0) {
+        this.die();
+      }
+    }
+  }
+
+  die() {
+    this.dead = true;
+    this.speed = 0;
+    clearInterval(this.animateInterval);
+    clearInterval(this.animationInterval);
+    console.log("Endboss ist besiegt!");
   }
 }

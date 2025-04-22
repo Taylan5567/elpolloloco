@@ -266,4 +266,5 @@ function restartGame() {
   const startButton = document.getElementById("start");
   if (startButton) startButton.style.display = "block";
   world.hadFirstContact = false;
+  startEngine();
 }

@@ -33,16 +33,16 @@ class ThrowableObject extends MovableObject {
   constructor(x, y) {
     super();
     this.loadImages(this.imgThrow);
-    this.loadImages(this.imgSplash);
     this.loadImage(this.imgThrow[0]);
+    this.loadImages(this.imgSplash);
     this.x = x;
     this.y = y;
     this.height = 60;
     this.width = 50;
+    this.yground = 300;
     this.throwBottle();
     this.animate();
-    this.isSplashing = false;
-    this.bottleSplash();
+    this.groundSplash();
   }
 
   /**
@@ -60,9 +60,36 @@ class ThrowableObject extends MovableObject {
   }
 
   bottleSplash() {
-    this.isSplashing = true;
-    this.hasSplashed = true;
-    this.playAnimate(this.imgSplash);
+    let splashInterval = setInterval(() => {
+      this.playAnimate(this.imgSplash);
+
+      if (this.isSplashing === false) {
+        clearInterval(splashInterval);
+        console.log("Splash animation stopped.");
+      }
+    }, 100);
+
+    setTimeout(() => {
+      this.loadImage(this.imgSplash[this.imgSplash.length - 1]);
+
+      if (this.world) {
+        let bottleIndex = this.world.thrownBottles.indexOf(this);
+        if (bottleIndex !== -1) {
+          this.world.thrownBottles.splice(bottleIndex, 1);
+        }
+      }
+    }, 400);
+  }
+
+  groundSplash() {
+    setInterval(() => {
+      if (this.y > this.yground) {
+        this.playAnimate(this.imgSplash);
+        setTimeout(() => {
+          world.removeBottle(this);
+        }, 400);
+      }
+    }, 100);
   }
 
   /**
