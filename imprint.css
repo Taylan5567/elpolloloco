@@ -1,0 +1,38 @@
+.imprint {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 5px;
+  height: 80%;
+  width: 80%;
+  margin: auto;
+}
+
+.imprint h1 {
+  font-size: 36px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.imprint p {
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.homebtn {
+  margin-top: 131px;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .imprint {
+    width: 90%;
+    padding: 10px;
+    text-align: center;
+  }
+
+  .imprint h1 {
+    font-size: 24px;
+    display: block;
+  }
+}

@@ -1,4 +1,6 @@
 class GameAudio {
+  isMuted = false; // Flag to indicate if the audio is muted
+
   /**
    * Initializes the game audio by creating Audio objects for background music, coin, bottle, hit, and endboss sounds.
    * The volume of the background music is set to 1 (full volume), and the volume of the other sounds is set to 0 (no volume).
@@ -9,16 +11,36 @@ class GameAudio {
     this.backgroundMusic.volume = 1;
 
     this.coinSound = new Audio("audio/coin.mp3");
-    this.coinSound.volume = 0;
+    this.coinSound.volume = 1;
 
     this.bottleSound = new Audio("audio/bottle.mp3");
-    this.bottleSound.volume = 0;
+    this.bottleSound.volume = 1;
 
     this.hitSound = new Audio("audio/hit.mp3");
-    this.hitSound.volume = 0;
+    this.hitSound.volume = 1;
 
     this.endbossSound = new Audio("audio/endboss.mp3");
-    this.endbossSound.volume = 0;
+    this.endbossSound.volume = 1;
+  }
+
+  /**
+   * Checks the mute state every 100ms and plays or pauses the audio accordingly.
+   * If the audio is muted, it plays the audio. If the audio is not muted, it pauses the audio.
+   * The interval is cleared after its first execution to prevent continuous checking.
+   * @method checkMuted
+   * @memberof GameAudio
+   * @instance
+   */
+  checkMuted() {
+    const intervalMute = setInterval(() => {
+      if (this.isMuted) {
+        this.playAudio();
+      } else {
+        this.isMuted = false;
+        this.pauseAudio();
+      }
+    }, 100);
+    clearInterval(intervalMute);
   }
 
   /**
@@ -28,13 +50,30 @@ class GameAudio {
    * @instance
    */
   playEndbossSound() {
-    if (this.playAudio) {
-      return;
+    if (!this.isMuted || world.endboss.hadFirstContact) {
+      this.playerEndbossSound();
     }
-    this.endbossSound.currentTime = 0;
-    this.endbossSound.volume = 1;
+    setInterval(() => {
+      if (this.isMuted) {
+        this.endbossSound.pause();
+      } else if (world.endboss.hadFirstContact) {
+        this.playerEndbossSound();
+      }
+    }, 100);
+  }
+
+  /**
+   * Plays the endboss sound and pauses the background music.
+   * Sets the volume of the endboss sound to 1 and resets the current time to 0.
+   * @method playerEndbossSound
+   * @memberof GameAudio
+   * @instance
+   */
+  playerEndbossSound() {
     this.endbossSound.play();
+    this.endbossSound.volume = 1;
     this.backgroundMusic.pause();
+    this.endbossSound.currentTime = 0;
   }
 
   /**

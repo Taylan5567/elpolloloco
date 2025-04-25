@@ -59,19 +59,22 @@ class ThrowableObject extends MovableObject {
     }, 25);
   }
 
+  /**
+   * Plays the splash animation for the bottle by cycling through the splash images.
+   * It sets an interval to update the animation every 100 milliseconds.
+   * If `isSplashing` is false, the interval is cleared, stopping the animation.
+   * After 400 milliseconds, the last splash image is loaded, and the bottle is removed
+   * from the world's thrownBottles array if the world is defined.
+   */
   bottleSplash() {
     let splashInterval = setInterval(() => {
       this.playAnimate(this.imgSplash);
-
       if (this.isSplashing === false) {
         clearInterval(splashInterval);
-        console.log("Splash animation stopped.");
       }
     }, 100);
-
     setTimeout(() => {
       this.loadImage(this.imgSplash[this.imgSplash.length - 1]);
-
       if (this.world) {
         let bottleIndex = this.world.thrownBottles.indexOf(this);
         if (bottleIndex !== -1) {
@@ -80,6 +83,13 @@ class ThrowableObject extends MovableObject {
       }
     }, 400);
   }
+
+  /**
+   * Periodically checks if the throwable object has reached the ground.
+   * If the object's y position is greater than the defined ground level (yground),
+   * it plays the splash animation. After a delay, it removes the object from the world.
+   * This function runs at an interval of 100 milliseconds.
+   */
 
   groundSplash() {
     setInterval(() => {

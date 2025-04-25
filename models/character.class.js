@@ -99,11 +99,6 @@ class Character extends MovableObject {
   /**
    * When the character jumps on an enemy, this function is called. It sets the
    * character's vertical speed to 20 and the last move time to the current time.
-   * This simulates the character jumping on the enemy. The character's vertical
-   * speed is then decreased by gravity every frame, which causes the character
-   * to fall down the screen. The last move time is used to check if the character
-   * has been idle for a certain amount of time, which will trigger the character's
-   * long idle animation.
    */
   jumpOnEnemy() {
     this.speedY = 20;
@@ -114,15 +109,12 @@ class Character extends MovableObject {
    * Sets an interval that, if the character's energy is 0, will make the character
    * fall down the screen, simulating gravity, until the character reaches the
    * bottom of the screen.
-   *
-   * The character's y position is increased by the speedY value and the speedY
-   * value is decreased by 5 every frame (60 times per second). The interval is
-   * reset every frame, so the character will only fall if the energy is 0.
    */
   deadFall() {
     setInterval(() => {
       if (this.energy == 0) {
         this.speedY = 10;
+        this.dead = true;
         this.y += this.speedY;
       }
     }, 1000 / 60);

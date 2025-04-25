@@ -21,12 +21,8 @@ class DrawableObject {
       } else {
         console.warn("Image is not loaded", this.img);
       }
-    } catch (e) {
-      console.warn("Fehler beim Laden", e);
-      console.log(
-        "Dieses Bild konnte nicht geladen werden",
-        this.img ? this.img.src : "undefined"
-      );
+    } catch (error) {
+      console.warn("Error while drawing image", this.img);
     }
   }
 

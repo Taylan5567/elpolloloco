@@ -1,6 +1,7 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let endGameInterval;
 
 /**
  * Initializes the game by getting the canvas element and creating a new World object.
@@ -12,12 +13,8 @@ function init() {
   canvas = document.getElementById("canvas");
   world = new World(canvas, keyboard);
   if (world.audio && typeof world.audio.pauseAudio !== "function") {
-    world.audio.pauseAudio = function () {
-      console.log("Audio paused");
-    };
-    world.audio.playAudio = function () {
-      console.log("Audio played");
-    };
+    world.audio.pauseAudio = function () {};
+    world.audio.playAudio = function () {};
   }
 }
 
@@ -163,14 +160,17 @@ function throwMobile() {
  */
 
 function muteGame() {
-  const muteButton = document.getElementById("mutebutton");
-  const isMuted = world.audio.backgroundMusic.volume === 0;
+  const isMuted = world.audio.isMuted;
+  world.audio.isMuted = !isMuted;
+  localStorage.setItem("isMuted", world.audio.isMuted);
 
-  world.audio.backgroundMusic.volume = isMuted ? 1 : 0;
-  muteButton.src = isMuted
-    ? "img/10_icons/volume.png"
-    : "img/10_icons/mute.png";
-  isMuted ? world.audio.playAudio() : world.audio.pauseAudio();
+  const muteIcon = document.getElementById("mutebutton");
+  if (muteIcon) {
+    muteIcon.src = world.audio.isMuted
+      ? "img/10_icons/mute.png"
+      : "img/10_icons/volume.png";
+  }
+  world.audio.isMuted ? world.audio.pauseAudio() : world.audio.playAudio();
 }
 
 /**
@@ -183,17 +183,36 @@ function checkGameEnd() {
   if (!world || !world.character || !world.endboss) {
     return;
   }
-  if (world.character.dead) {
+  if (world.character.dead || world.character.energy <= 0) {
     checkCharacterDead();
     clearInterval(endGameInterval);
-  } else if (world.endboss.dead) {
+  } else if (world.endboss.dead || world.endboss.energy <= 0) {
     checkBossDead();
     clearInterval(endGameInterval);
   }
 }
-const endGameInterval = setInterval(() => {
+endGameInterval = setInterval(() => {
   checkGameEnd();
 }, 100);
+
+/**
+ * Starts a new interval that calls checkGameEnd every 100ms. If an interval
+ * already exists, it is stopped before starting a new one. This is used to
+ * check if the game has ended after the endboss has been defeated or the
+ * character has died.
+ * @function startEndGameInterval
+ * @memberof Game
+ * @instance
+ */
+function startEndGameInterval() {
+  if (endGameInterval) {
+    clearInterval(endGameInterval);
+  }
+
+  endGameInterval = setInterval(() => {
+    checkGameEnd();
+  }, 100);
+}
 
 /**
  * Checks if the boss is dead and handles the endgame logic for winning.
@@ -262,9 +281,31 @@ function restartGame() {
   const muteButton = document.getElementById("mute");
   if (muteButton) muteButton.style.display = "block";
   const muteIcon = document.getElementById("mutebutton");
-  if (muteIcon) muteIcon.src = "../img/10_icons/volume.png";
+  if (muteIcon) muteIcon.src = "img/10_icons/volume.png";
   const startButton = document.getElementById("start");
-  if (startButton) startButton.style.display = "block";
+  if (startButton) startButton.style.display = "none";
   world.hadFirstContact = false;
-  startEngine();
+  startEndGameInterval();
+}
+
+/**
+ * Initializes the mute state of the game by reading the state from localStorage,
+ * updating the mute button icon accordingly, and either pausing or playing the
+ * audio based on the state. This function is called at the beginning of the game
+ * to ensure the mute state is properly set.
+ */
+function initializeMuteState() {
+  const isMuted = localStorage.getItem("isMuted") === "true"; // Lese den Zustand aus localStorage
+  world.audio.isMuted = isMuted;
+
+  const muteIcon = document.getElementById("mutebutton");
+  if (muteIcon) {
+    muteIcon.src = isMuted
+      ? "img/10_icons/mute.png"
+      : "img/10_icons/volume.png";
+  }
+
+  if (isMuted) {
+    world.audio.pauseAudio();
+  }
 }

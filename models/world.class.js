@@ -1,7 +1,5 @@
 class World {
-  /**
-   * @param {boolean} isGameStarted - Indicates if the game has started.
-   */
+  /** @param {boolean} isGameStarted - Indicates if the game has started.*/
   start = new Start(0, 0);
   endscreen = null;
   character = new Character();
@@ -19,13 +17,12 @@ class World {
   ctx;
   keyboard;
   camera_x = 0;
-  bossMusicStarted = false;
   endboss = new Endboss();
+  isGameStarted = false;
+  gameRestart = false;
 
-  /**
-   * Creates an instance of World.
-   * @param {*} canvas @param {*} keyboard
-   */
+  /** Creates an instance of World.
+   * @param {*} canvas @param {*} keyboard */
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
@@ -36,9 +33,7 @@ class World {
     this.getCoins();
     this.getBottles();
   }
-  /**
-   * Sets the world for the character and enemies.
-   */
+  /* Sets the world for the character and enemies. */
   setWorld() {
     this.character.world = this;
     this.endboss.world = this;
@@ -47,72 +42,47 @@ class World {
     }
   }
 
-  /**
-   * Initializes and starts the game by setting the game state to started,
-   * playing background music, initializing the level and setting up the world
-   * environment, including the endboss. The game loop is also started.
-   */
+  /*Initializes and starts the game by setting the game state to started,*/
   startGame() {
     this.isGameStarted = true;
     this.audio.playBackgroundMusic();
     initLevel();
     this.level = levelOne;
     this.setWorld();
-    this.audio.playAudio();
+    this.audio.checkMuted();
     this.endboss = new Endboss();
     this.endboss.world = this;
     this.run();
   }
-
   /**
-   * Restarts the game by resetting the game state to default, clearing the current level, resetting the game data, initializing a new level and
-   * restarting the game loop.
+   * Resets the game state by setting all game state properties to their initial, default values.
+   * @function resetGameState
    */
-  restartGame() {
+  resetGameState() {
     this.isGameStarted = false;
     this.gameOver = false;
     this.gameWon = false;
-    this.hadFirstContact = false; // Reset boss fight trigger
-    this.bossMusicStarted = false; // Reset boss music trigger
+    this.endboss.hadFirstContact = false;
+    this.bossMusicStarted = false;
+  }
+
+  /** Resets the game objects to their initial state. This includes resetting game data, initializing the level, setting the world context, and resetting audio elements.
+   */
+  resetGameObjects() {
     this.resetGameData();
     initLevel();
     this.level = levelOne;
     this.setWorld();
-    this.audio.resetAudio();
-    this.endscreen = null;
+
+    if (this.audio && typeof this.audio.resetAudio === "function") {
+      this.audio.resetAudio();
+      this.audio.playAudio();
+    }
   }
 
   /**
-   * Stops the game by clearing the canvas, stopping the game loop, and
-   * pausing the audio.
-   */
-  stopGame() {
-    this.isGameStarted = false;
-    this.clearCanvas();
-    this.audio.pauseAudio();
-  }
-
-  /**
-   * Clears the canvas by getting the 2D context and using the clearRect method
-   * to clear the entire canvas area.
-   */
-  clearCanvas() {
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d");
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-  }
-
-  /**
-   * Loads an image from the given path and assigns it to the img property of the World object.
-   * @param {string} path - The path to the image.
-   */
-  loadImage(path) {
-    this.img = new Image();
-    this.img.src = path;
-  }
-
-  /**
-   * Resets the game data by creating new instances of the Character, Status, BottleStatus, EndbossStatus, CoinStatus, Coins, Bottle, and Endboss objects.
+   * Resets all game data to its initial state. This method is called when
+   * the game is restarted.
    */
   resetGameData() {
     this.character = new Character();
@@ -120,15 +90,51 @@ class World {
     this.bottlestats = new BottleStatus();
     this.bossStats = new EndbossStatus();
     this.coin = new CoinStatus();
-    this.items = [new Coins()];
-    this.bottle = [new Bottle()];
+    this.items = [];
+    this.bottle = [];
+    this.getCoins();
+    this.getBottles();
     this.thrownBottles = [];
     this.endboss = new Endboss();
   }
 
   /**
-   * Draws the current state of the game onto the canvas.
+   * Restarts the game by resetting the game state and all game objects.
+   * @function restartGame
    */
+  restartGame() {
+    this.resetGameState(); // Setze Spielzustände zurück
+    this.resetGameObjects(); // Setze Spielobjekte zurück
+    this.isGameStarted = true; // Starte das Spiel neu
+    this.gameRestart = true;
+    this.audio.playBackgroundMusic();
+    setTimeout(() => {
+      this.gameRestart = false;
+    }, 5000);
+  }
+
+  /* Stops the game by clearing the canvas, stopping the game loop, and */
+  stopGame() {
+    this.clearCanvas();
+    this.audio.pauseAudio();
+  }
+
+  /* Clears the canvas by getting the 2D context and using the clearRect method */
+  clearCanvas() {
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  /* Loads an image from the given path and assigns it to the img property of the World object. */
+  loadImage(path) {
+    this.img = new Image();
+    this.img.src = path;
+  }
+
+  /** Resets the game data by creating new instances of the Character, Status, BottleStatus, EndbossStatus, CoinStatus, Coins, Bottle, and Endboss objects. */
+
+  /* Draws the current state of the game onto the canvas. */
   draw() {
     this.clearCanvas();
     if (!this.isGameStarted) {
@@ -139,20 +145,12 @@ class World {
     requestAnimationFrame(() => this.draw());
   }
 
-  /**
-   * Clears the entire canvas area by using the clearRect method on the 2D context.
-   * This effectively removes all drawn content, making the canvas blank.
-   */
-
+  /* Clears the entire canvas area by using the clearRect method on the 2D context. */
   clearCanvas() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
-  /**
-   * Draws the current state of the game world onto the canvas.
-   * Sets the camera to the character's position, draws the background objects,
-   * draws the UI elements, and draws the foreground objects.
-   */
+  /* Draws the current state of the game world onto the canvas.*/
   drawGameWorld() {
     this.setCamera();
     this.drawBackground();
@@ -160,9 +158,7 @@ class World {
     this.drawForeground();
   }
 
-  /**
-   * Sets the camera to follow the character by adjusting the canvas origin.
-   */
+  /* Sets the camera to follow the character by adjusting the canvas origin.*/
   setCamera() {
     this.camera_x =
       -this.character.x + this.canvas.width * 0.15 - this.character.width / 2;
@@ -170,18 +166,14 @@ class World {
     this.ctx.translate(this.camera_x, 0);
   }
 
-  /**
-   * Draws the background and clouds of the current level, resetting the canvas origin afterward.
-   */
+  /* Draws the background and clouds of the current level, resetting the canvas origin afterward.*/
   drawBackground() {
     this.addObjectstoMap(this.level.backgroundObjects);
     this.addObjectstoMap(this.level.clouds);
     this.ctx.restore();
   }
 
-  /**
-   * Draws the UI elements (status bar, bottles, coins, endboss) on the canvas.
-   */
+  /* Draws the UI elements (status bar, bottles, coins, endboss) on the canvas. */
   drawUI() {
     this.addtoMap(this.status);
     this.addtoMap(this.bottlestats);
@@ -189,9 +181,7 @@ class World {
     this.addtoMap(this.bossStats);
   }
 
-  /**
-   * Draws the foreground objects (character, enemies, bottles, items) on the canvas, adjusting for the camera's position.
-   */
+  /** Draws the foreground objects (character, enemies, bottles, items) on the canvas, adjusting for the camera's position.*/
   drawForeground() {
     this.ctx.save();
     this.ctx.translate(this.camera_x, 0);
@@ -203,16 +193,12 @@ class World {
     this.ctx.restore();
   }
 
-  /**
-   * Runs the game by checking for events (e.g., throwing bottles, collecting items,
-   * boss fight, game over) every 200ms and collisions every 50ms.
-   */
+  /* Runs the game by checking for events (e.g., throwing bottles, collecting items, */
   run() {
     setInterval(() => {
       this.checkThrowObjects();
       this.checkCollectCoin();
       this.checkCollectBottle();
-      world.endboss.checkBossfight();
     }, 200);
     setInterval(() => {
       if (!this.gameOver) {
@@ -221,9 +207,7 @@ class World {
     }, 50);
   }
 
-  /**
-   * Checks for collisions between the character and enemies, and between thrown bottles and enemies and the endboss.
-   */
+  /* Checks for collisions between the character and enemies, and between thrown bottles and enemies and the endboss. */
   checkCollisions() {
     if (!this.level?.enemies) return;
     this.level.enemies.forEach((enemy) => {
@@ -237,10 +221,7 @@ class World {
     if (this.endboss) this.checkEndbossCollision();
   }
 
-  /**
-   * Checks if the character collides with an enemy.
-   * @param {Enemy} enemy - The enemy to check for collision.
-   */
+  /* Checks if the character collides with an enemy. */
   checkEnemyCollision(enemy) {
     if (enemy.dead) return;
     if (!this.character.isColliding(enemy)) return;
@@ -257,10 +238,7 @@ class World {
     }
   }
 
-  /**
-   * Handles enemy hits by the character or a thrown bottle, removing them after a delay.
-   * @param {Enemy} enemy - The enemy to hit.
-   */
+  /** Handles enemy hits by the character or a thrown bottle, removing them after a delay. */
   checkChickenhit(enemy, bottle) {
     if (typeof enemy.hitChicken === "function") {
       enemy.hitChicken();
@@ -268,7 +246,7 @@ class World {
       enemy.hit();
     }
     if (bottle && typeof bottle.bottleSplash === "function") {
-      bottle.bottleSplash(); // Spiele die Splash-Animation der Flasche ab
+      bottle.bottleSplash();
     }
     setTimeout(() => {
       this.removeEnemy(enemy);
@@ -276,9 +254,7 @@ class World {
     }, 500);
   }
 
-  /**
-   * Handles collisions between the character and the endboss, updating energy and stats accordingly.
-   */
+  /* Handles collisions between the character and the endboss, updating energy and stats accordingly. */
   checkEndbossCollision() {
     if (!this.endboss || !this.character.isColliding(this.endboss)) return;
     const charBox = this.character.getHitbox();
@@ -294,10 +270,7 @@ class World {
     }
   }
 
-  /**
-   * Checks if a bottle hits the endboss, updates stats, and removes the bottle after a delay.
-   * @param {Bottle} bottle - The bottle to check for collision.
-   */
+  /* Checks if a bottle hits the endboss, updates stats, and removes the bottle after a delay.*/
   checkBossHit(bottle) {
     if (typeof this.endboss.hit === "function") {
       this.endboss.hit();
@@ -312,9 +285,7 @@ class World {
       }, 800);
     }
   }
-  /**
-   * Handles bottle throwing based on keyboard input and available munition, updating stats and checking collisions.
-   */
+  /** Handles bottle throwing based on keyboard input and available munition, updating stats and checking collisions */
   checkThrowObjects() {
     if (this.keyboard.D && this.character.munition > 0) {
       let offsetX = this.character.otherDirection ? -50 : 50;
@@ -331,10 +302,7 @@ class World {
     }
   }
 
-  /**
-   * Checks if the player has collided with any coins on the map. If a collision occurs, the player's money count is incremented and the coin is removed from the items array.
-   * The coinstats are updated to reflect the increased money count. The coin sound effect is played when a coin is collected.
-   */
+  /** Checks if the player has collided with any coins on the map. If a collision occurs, the player's money count is incremented and the coin is removed from the items array. */
   checkCollectCoin() {
     this.items.forEach((item, index) => {
       if (this.character.isColliding(item)) {
@@ -346,10 +314,7 @@ class World {
     });
   }
 
-  /**
-   * Checks if the player has collided with any bottles on the map. If a collision occurs, the player's munition count is incremented and the bottle is removed from the bottle array.
-   * The bottlestats are updated to reflect the increased munition count. This function is typically called within the game loop to handle the bottle collecting mechanic.
-   */
+  /** Checks if the player has collided with any bottles on the map. If a collision occurs, the player's munition count is incremented and the bottle is removed from the bottle array. */
   checkCollectBottle() {
     this.bottle.forEach((bottle, index) => {
       if (!bottle.isThrown && this.character.isColliding(bottle)) {
@@ -360,10 +325,7 @@ class World {
     });
   }
 
-  /**
-   * Removes the given enemy object from the level's enemies array.
-   * @param {Enemy} enemy The enemy object to be removed from the level's enemies array
-   */
+  /* Removes the given enemy object from the level's enemies array. */
   removeEnemy(enemy) {
     if (enemy instanceof Endboss && !this.endboss.dead) {
       return;
@@ -374,10 +336,7 @@ class World {
     }
   }
 
-  /**
-   * Removes the given bottle object from the thrownBottles array.
-   * @param {Bottle} bottle The bottle object to be removed from the thrownBottles array.
-   */
+  /** Removes the given bottle object from the thrownBottles array. */
   removeBottle(bottle) {
     const index = this.thrownBottles.indexOf(bottle);
     if (index > -1) {
@@ -385,37 +344,30 @@ class World {
     }
   }
 
-  /**
-   * Generates 3 new coin objects and adds them to the items array.
-   */
-  getCoins() {
-    for (let i = 0; i < 3; i++) {
-      this.items.push(new Coins());
+  /** Generates 3 new coin objects and adds them to the items array. */
+  getCoins(count = 6) {
+    for (let i = 0; i < count; i++) {
+      const coin = new Coins();
+      this.items.push(coin);
     }
   }
 
-  /**
-   * Generates 3 new Bottle objects and adds them to the bottle array.
-   */
-  getBottles() {
-    for (let i = 0; i < 3; i++) {
-      this.bottle.push(new Bottle());
+  /** Generates 3 new Bottle objects and adds them to the bottle array. */
+  getBottles(count = 6) {
+    for (let i = 0; i < count; i++) {
+      const bottle = new Bottle();
+      this.bottle.push(bottle);
     }
   }
 
-  /**
-   * @param {MovableObject[]} objects The array of MovableObjects to be added to the map.
-   */
+  /** @param {MovableObject[]} objects The array of MovableObjects to be added to the map.*/
   addObjectstoMap(objects) {
     objects.forEach((obj) => {
       this.addtoMap(obj);
     });
   }
 
-  /**
-   * Adds a MovableObject to the map by calling its draw method and creating a collision rectangle at its position.
-   * @param {MovableObject} mo The MovableObject to be added to the map.
-   */
+  /** Adds a MovableObject to the map by calling its draw method and creating a collision rectangle at its position. */
   addtoMap(mo) {
     if (mo.otherDirection) {
       this.flipImage(mo);
@@ -427,9 +379,7 @@ class World {
       this.flipImageBack(mo);
     }
   }
-  /**
-   * @param {MovableObject} mo The MovableObject whose image is to be flipped.
-   */
+  /** @param {MovableObject} mo The MovableObject whose image is to be flipped.*/
   flipImage(mo) {
     this.ctx.save();
     this.ctx.translate(mo.width, 0);
@@ -437,10 +387,7 @@ class World {
     mo.x = mo.x * -1;
   }
 
-  /**
-   * @param {MovableObject} mo The MovableObject whose image was flipped.
-   * @memberof World
-   */
+  /** @param {MovableObject} mo The MovableObject whose image was flipped. */
   flipImageBack(mo) {
     mo.x = mo.x * -1;
     this.ctx.restore();

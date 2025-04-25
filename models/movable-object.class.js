@@ -47,7 +47,6 @@ class MovableObject extends DrawableObject {
   isDead() {
     if (world.character.energy <= 0) {
       world.character.dead = true;
-      console.log("Character dead");
     }
   }
 
@@ -132,9 +131,21 @@ class MovableObject extends DrawableObject {
    * Calculates the time in seconds since the object last moved.
    * @return {number} The idle time in seconds.
    */
-
   getIdleTime() {
-    return (new Date().getTime() - this.lastMove) / 1000;
+    const currentTime = new Date().getTime();
+
+    if (this.lastMove === 0) {
+      this.lastMove = currentTime;
+    }
+    return (currentTime - this.lastMove) / 1000;
+  }
+  /**
+   * Checks if the object has been idle for more than the given threshold time.
+   * @param {number} threshold - The time in seconds to check for idleness.
+   * @return {boolean} True if the object has been idle for more than the given threshold time, false otherwise.
+   */
+  isIdleFor(threshold) {
+    return this.getIdleTime() > threshold;
   }
 
   /**
@@ -142,7 +153,7 @@ class MovableObject extends DrawableObject {
    * @return {boolean} True if the object has been idle for more than 3 seconds, false otherwise.
    */
   isIdle() {
-    return this.getIdleTime() > 3;
+    return this.isIdleFor(3); // Standardwert: 3 Sekunden
   }
 
   /**
@@ -150,19 +161,14 @@ class MovableObject extends DrawableObject {
    * @return {boolean} True if the object has been idle for more than 15 seconds, false otherwise.
    */
   isLongIdle() {
-    return this.getIdleTime() > 15;
+    return this.isIdleFor(15);
   }
 
   /**
    * Draws a blue frame around the hitbox of a MovableObject on the provided canvas context.
-   * This is applicable for instances of Character, Chicken, Bottle, Coins, or Endboss.
-   * The function checks if the MovableObject has a getHitbox method and then draws the
-   * rectangle representing the hitbox on the canvas.
-   * @param {CanvasRenderingContext2D} ctx The canvas rendering context where the frame will be drawn.
    * @param {MovableObject} mo The MovableObject whose hitbox will be framed.
    * @memberof World
    */
-
   drawBlueFrame(ctx, mo) {
     if (
       mo.getHitbox &&

@@ -39,22 +39,22 @@
     <script src="./models/endscreen.class.js"></script>
     <script src="./js/game.js"></script>
   </head>
-  <body onload="init(), checkGameEnd()">
+  <body onload="init(), checkGameEnd(), initLevel(), initializeMuteState();">
     <h1>El Pollo Loco</h1>
     <div id="canvasContainers" class="canvasContainer">
       <canvas id="canvas" width="720" height="480"> </canvas>
       <img
-        src="./img/5_background/first_half_background.png"
+        src="img/5_background/first_half_background.png"
         id="youwinbackground"
         style="display: none"
         alt="" />
       <img
-        src="./img/You_won_you_lost/You_win_B.png"
+        src="img/You_won_you_lost/You_won_A.png"
         id="youwin"
         style="display: none"
         alt="" />
       <img
-        src="./img/You_won_you_lost/You_lost_B.png"
+        src="img/You_won_you_lost/You lost.png"
         id="youlost"
         style="display: none"
         alt="" />
@@ -87,7 +87,7 @@
         Throw
       </button>
       <button class="mute" id="mute" onclick="muteGame()">
-        <img id="mutebutton" src="./img/10_icons/mute.png" alt="" />
+        <img id="mutebutton" src="img/10_icons/mute.png" alt="" />
       </button>
     </div>
 
@@ -103,7 +103,7 @@
     <div class="descr">
       <div class="imprint">
         <form action="./imprint.html">
-          <button>IMPRINT</button>
+          <button href="./imprint.html">IMPRINT</button>
         </form>
       </div>
       <div class="howto">

@@ -43,6 +43,7 @@ button {
   box-shadow: 7px 5px 10px black;
   position: relative;
   z-index: 10;
+  cursor: pointer;
 }
 
 .howto {
@@ -170,8 +171,8 @@ h1 {
 #youwin,
 #youlost {
   position: absolute;
-  height: 100px;
-  margin-bottom: 195px;
+  height: 256px;
+  margin-bottom: 115px;
 }
 
 #youwinbackground {
@@ -258,6 +259,7 @@ h1 {
   .startButton,
   .gameOverButton {
     font-size: 25px;
+    cursor: pointer;
   }
 }
 
