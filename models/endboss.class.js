@@ -7,7 +7,7 @@ class Endboss extends MovableObject {
   energy = 99;
   hadFirstContact = false;
   characterDirection;
-  speed = 4;
+  speed = 8;
   currentImage = 0;
   world = null;
 

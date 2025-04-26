@@ -1,7 +1,7 @@
 class Character extends MovableObject {
   world;
   currentImage = 0;
-  speed = 5;
+  speed = 1;
 
   offset = { top: 95, left: 15, right: 25, bottom: 5 };
 
@@ -120,10 +120,16 @@ class Character extends MovableObject {
     }, 1000 / 60);
   }
 
+  /**
+   * Moves the character to the left by its speed. Also updates the lastMove
+   * property to the current time.
+   * @returns {void}
+   */
   moveLeft() {
     this.x -= this.speed;
     this.lastMove = new Date().getTime();
   }
+
   /**
    * Animates the character based on the state of the keyboard.
    *
@@ -138,7 +144,6 @@ class Character extends MovableObject {
    *
    * The animation is updated every 50 milliseconds.
    */
-
   animate() {
     setInterval(() => {
       if (this.world.keyboard.LEFT && this.x > 0) {
@@ -169,6 +174,6 @@ class Character extends MovableObject {
       } else if (this.world.keyboard.LEFT || this.world.keyboard.RIGHT) {
         this.playAnimate(this.imgWalking);
       }
-    }, 107);
+    }, 1000 / 20);
   }
 }

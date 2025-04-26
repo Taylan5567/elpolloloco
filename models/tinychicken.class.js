@@ -30,7 +30,7 @@ class TinyChicken extends Chicken {
     this.y = 350;
     this.height = 90;
     this.width = 90;
-    this.speed = 3 + Math.random() * 0.5;
+    this.speed = 2 + Math.random() * 1;
   }
 
   /**
@@ -47,6 +47,6 @@ class TinyChicken extends Chicken {
         this.playAnimate(this.imgWalking);
         this.moveLeft();
       }
-    }, 200);
+    }, 1000 / 20);
   }
 }

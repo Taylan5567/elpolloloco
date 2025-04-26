@@ -19,11 +19,9 @@ class DrawableObject {
       if (this.img) {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
       } else {
-        console.warn("Image is not loaded", this.img);
+        console.warn();
       }
-    } catch (error) {
-      console.warn("Error while drawing image", this.img);
-    }
+    } catch (error) {}
   }
 
   /**
@@ -47,7 +45,6 @@ class DrawableObject {
    * @param {MovableObject} mo - The other MovableObject to check for collision against.
    * @returns {boolean} - True if the objects are colliding, false otherwise.
    */
-
   isColliding(mo) {
     const myBox = this.getHitbox();
     const otherBox = mo.getHitbox();

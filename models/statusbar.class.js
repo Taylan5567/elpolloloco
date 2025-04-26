@@ -34,7 +34,6 @@ class Status extends DrawableObject {
    * using `resolveImageIndex`. The image is then set from the `imageCache`.
    * @param {number} precentage - The new percentage value to set.
    */
-
   setPrecentage(precentage) {
     this.precentage = precentage;
     let path = this.imgStatus[this.resolveImageIndex()];
@@ -48,7 +47,6 @@ class Status extends DrawableObject {
    * to select an appropriate image from the imgStatus array.
    * @returns {number} An index from 0 to 5 corresponding to the percentage range.
    */
-
   resolveImageIndex() {
     if (this.precentage == 100) {
       return 5;

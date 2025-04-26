@@ -32,7 +32,6 @@ class CoinStatus extends DrawableObject {
    *
    * @param {number} money - The current money count to set and display on the status bar.
    */
-
   setCash(money) {
     this.money = money;
     let path = this.imgMoney[this.resolveImageIndexCoin()];
@@ -55,7 +54,7 @@ class CoinStatus extends DrawableObject {
       return 3;
     } else if (this.money == 4) {
       return 4;
-    } else if (this.money == 5) {
+    } else if (this.money >= 5) {
       return 5;
     }
   }

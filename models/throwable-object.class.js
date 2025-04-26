@@ -90,7 +90,6 @@ class ThrowableObject extends MovableObject {
    * it plays the splash animation. After a delay, it removes the object from the world.
    * This function runs at an interval of 100 milliseconds.
    */
-
   groundSplash() {
     setInterval(() => {
       if (this.y > this.yground) {

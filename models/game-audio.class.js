@@ -83,8 +83,10 @@ class GameAudio {
    * @instance
    */
   playBackgroundMusic() {
-    this.backgroundMusic.currentTime = 0;
-    this.backgroundMusic.play();
+    if (!this.isMuted) {
+      this.backgroundMusic.currentTime = 0;
+      this.backgroundMusic.play();
+    }
   }
 
   /**

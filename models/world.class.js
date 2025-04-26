@@ -285,9 +285,16 @@ class World {
       }, 800);
     }
   }
+
   /** Handles bottle throwing based on keyboard input and available munition, updating stats and checking collisions */
   checkThrowObjects() {
-    if (this.keyboard.D && this.character.munition > 0) {
+    const currentTime = new Date().getTime();
+    if (
+      this.keyboard.D &&
+      this.character.munition > 0 &&
+      (!this.lastThrowTime || currentTime - this.lastThrowTime > 500)
+    ) {
+      this.lastThrowTime = currentTime;
       let offsetX = this.character.otherDirection ? -50 : 50;
       let thrownBottle = new ThrowableObject(
         this.character.x + offsetX,
@@ -296,8 +303,9 @@ class World {
       this.thrownBottles.push(thrownBottle);
       this.bottlestats.setMunition(--this.character.munition);
       setTimeout(() => {
-        if (thrownBottle.isColliding(this.endboss))
+        if (thrownBottle.isColliding(this.endboss)) {
           this.checkBossHit(thrownBottle);
+        }
       }, 500);
     }
   }

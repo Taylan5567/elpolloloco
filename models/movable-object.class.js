@@ -31,7 +31,6 @@ class MovableObject extends DrawableObject {
    * For other instances, it returns true if the object's y-coordinate is less than 180.
    * @returns {boolean} True if the object is above ground level, otherwise false.
    */
-
   IsAboveGround() {
     if (this instanceof ThrowableObject) {
       return true;
@@ -56,7 +55,6 @@ class MovableObject extends DrawableObject {
    * property to the current time.
    * @returns {void}
    */
-
   moveRight() {
     this.x += this.speed;
     this.otherDirection = false;
@@ -120,7 +118,6 @@ class MovableObject extends DrawableObject {
    * Determines if the object is currently hurt based on the time elapsed since the last hit.
    * @return {boolean} True if the object has been hurt within the last second, false otherwise.
    */
-
   isHurt() {
     let timepassed = new Date().getTime() - this.lastHit;
     timepassed = timepassed / 1000;
@@ -139,6 +136,7 @@ class MovableObject extends DrawableObject {
     }
     return (currentTime - this.lastMove) / 1000;
   }
+
   /**
    * Checks if the object has been idle for more than the given threshold time.
    * @param {number} threshold - The time in seconds to check for idleness.
