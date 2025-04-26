@@ -14,7 +14,6 @@ class Bottle extends DrawableObject {
    * @param {number} x The x position of the bottle.
    * @param {number} y The y position of the bottle.
    */
-
   constructor() {
     super();
     this.loadImage(["img/6_salsa_bottle/1_salsa_bottle_on_ground.png"]);

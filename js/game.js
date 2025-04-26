@@ -246,16 +246,29 @@ function checkCharacterDead() {
 
 /**
  * Hides all game controls (right, left, jump, throw) by setting their
- * display property to "none". This is used to stop the game when the
+ * display property to "hidden". This is used to stop the game when the
  * boss or the character are dead.
  */
 function hideGameControls() {
-  document.getElementById("right").style.display = "none";
-  document.getElementById("left").style.display = "none";
-  document.getElementById("jump").style.display = "none";
-  document.getElementById("throw").style.display = "none";
+  document.getElementById("right").classList.add("hidden");
+  document.getElementById("left").classList.add("hidden");
+  document.getElementById("jump").classList.add("hidden");
+  document.getElementById("throw").classList.add("hidden");
 }
 
+/**
+ * Hides all game controls (right, left, jump, throw) by setting their
+ * display property to "none". This is used to stop the game when the
+ * boss or the character are dead.
+ * @memberof Game
+ * @instance
+ */
+function showGameControls() {
+  document.getElementById("right").classList.remove("hidden");
+  document.getElementById("left").classList.remove("hidden");
+  document.getElementById("jump").classList.remove("hidden");
+  document.getElementById("throw").classList.remove("hidden");
+}
 /**
  * Stops the game by calling the stopGame() method on the world object
  * when the boss or the character are dead.
@@ -285,6 +298,8 @@ function restartGame() {
   const startButton = document.getElementById("start");
   if (startButton) startButton.style.display = "none";
   world.hadFirstContact = false;
+  showGameControls();
+  initializeMuteState();
   startEndGameInterval();
 }
 

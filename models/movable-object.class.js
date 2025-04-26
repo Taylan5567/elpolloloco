@@ -21,6 +21,7 @@ class MovableObject extends DrawableObject {
       if (this.IsAboveGround() || this.speedY > 0) {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;
+        world.character.isJumping = true;
       }
     }, 1000 / 30);
   }

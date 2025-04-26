@@ -7,7 +7,7 @@ class Endboss extends MovableObject {
   energy = 99;
   hadFirstContact = false;
   characterDirection;
-  speed = 8;
+  speed = 15;
   currentImage = 0;
   world = null;
 
@@ -91,7 +91,7 @@ class Endboss extends MovableObject {
         this.animateActions();
         this.checkDistanceToPlayer();
       }
-    }, 150);
+    }, 1000 / 10);
   }
 
   /**
@@ -145,7 +145,7 @@ class Endboss extends MovableObject {
     }
     const player = world.character.x;
     const distanceX = Math.abs(this.x - player);
-    if (distanceX < 100) {
+    if (distanceX < 10) {
       this.fight();
     }
   }
@@ -162,8 +162,8 @@ class Endboss extends MovableObject {
     const distanceX = Math.abs(this.x - player);
     if (distanceX < 400) {
       this.moveLeft();
-    } else {
-      this.x += this.speed;
+    } else if (distanceX > 20) {
+      this.x += this.speed = 17;
     }
   }
 

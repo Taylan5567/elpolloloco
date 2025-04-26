@@ -292,21 +292,20 @@ class World {
     if (
       this.keyboard.D &&
       this.character.munition > 0 &&
-      (!this.lastThrowTime || currentTime - this.lastThrowTime > 500)
+      (!this.lastThrowTime || currentTime - this.lastThrowTime > 500) &&
+      !this.character.otherDirection
     ) {
       this.lastThrowTime = currentTime;
-      let offsetX = this.character.otherDirection ? -50 : 50;
-      let thrownBottle = new ThrowableObject(
-        this.character.x + offsetX,
-        this.character.y + 50
+      this.thrownBottles.push(
+        new ThrowableObject(this.character.x + 50, this.character.y + 50)
       );
-      this.thrownBottles.push(thrownBottle);
       this.bottlestats.setMunition(--this.character.munition);
-      setTimeout(() => {
-        if (thrownBottle.isColliding(this.endboss)) {
-          this.checkBossHit(thrownBottle);
-        }
-      }, 500);
+      setTimeout(
+        () =>
+          this.thrownBottles.at(-1).isColliding(this.endboss) &&
+          this.checkBossHit(this.thrownBottles.at(-1)),
+        500
+      );
     }
   }
 

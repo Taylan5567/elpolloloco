@@ -58,34 +58,36 @@
         id="youlost"
         style="display: none"
         alt="" />
-      <button class="startButton" id="start" onclick="startEngine()">
-        START
-      </button>
-      <button
-        class="gameOverButton"
-        id="gameover"
-        style="display: none"
-        onclick="restartGame()">
-        RESTART
-      </button>
-      <button
-        class="controlMobileleft"
-        id="left"
-        ontouchstart="moveLeftMobile()">
-        <img src="./img/10_icons/arrow_back.svg" />
-      </button>
-      <button
-        class="controlMobileright"
-        id="right"
-        ontouchstart="moveRightMobile()">
-        <img src="./img/10_icons/arrow_forward.svg" />
-      </button>
-      <button class="controlMobilejump" id="jump" onclick="jumpMobile()">
-        Jump
-      </button>
-      <button class="controlMobilethrow" id="throw" onclick="throwMobile()">
-        Throw
-      </button>
+      <div class="controller">
+        <button class="startButton" id="start" onclick="startEngine()">
+          START
+        </button>
+        <button
+          class="gameOverButton"
+          id="gameover"
+          style="display: none"
+          onclick="restartGame()">
+          RESTART
+        </button>
+        <button
+          class="controlMobileleft"
+          id="left"
+          ontouchstart="moveLeftMobile()">
+          <img src="./img/10_icons/arrow_back.svg" />
+        </button>
+        <button
+          class="controlMobileright"
+          id="right"
+          ontouchstart="moveRightMobile()">
+          <img src="./img/10_icons/arrow_forward.svg" />
+        </button>
+        <button class="controlMobilejump" id="jump" onclick="jumpMobile()">
+          Jump
+        </button>
+        <button class="controlMobilethrow" id="throw" onclick="throwMobile()">
+          Throw
+        </button>
+      </div>
       <button class="mute" id="mute" onclick="muteGame()">
         <img id="mutebutton" src="img/10_icons/mute.png" alt="" />
       </button>
@@ -99,34 +101,35 @@
         <p>Rotate your device!</p>
       </div>
     </div>
-
-    <div class="descr">
-      <div class="imprint">
-        <form action="./imprint.html">
-          <button href="./imprint.html">IMPRINT</button>
-        </form>
-      </div>
-      <div class="howto">
-        <h2>How to Play</h2>
-        <div class="controls">
-          <div class="run">
-            <span>RUN</span>
-            <div class="control">
-              <button disabled>
-                <img src="./img/10_icons/arrow_back.svg" />
-              </button>
-              <button disabled>
-                <img src="./img/10_icons/arrow_forward.svg" />
-              </button>
+    <div class="decrtwo">
+      <h2>How to Play</h2>
+      <div class="descr">
+        <div class="imprint">
+          <form action="./imprint.html">
+            <button href="./imprint.html">IMPRINT</button>
+          </form>
+        </div>
+        <div class="howto">
+          <div class="controls">
+            <div class="run">
+              <span>RUN</span>
+              <div class="control">
+                <button disabled>
+                  <img src="./img/10_icons/arrow_back.svg" />
+                </button>
+                <button disabled>
+                  <img src="./img/10_icons/arrow_forward.svg" />
+                </button>
+              </div>
             </div>
-          </div>
-          <div class="jump">
-            <span>Jump</span>
-            <button disabled>SPACE</button>
-          </div>
-          <div class="throw">
-            <span>Throw</span>
-            <button disabled>D</button>
+            <div class="jump">
+              <span>Jump</span>
+              <button disabled>SPACE</button>
+            </div>
+            <div class="throw">
+              <span>Throw</span>
+              <button disabled>D</button>
+            </div>
           </div>
         </div>
       </div>
