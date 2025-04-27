@@ -74,6 +74,7 @@ class Endboss extends MovableObject {
     this.bossFight();
     this.lastHitTime = null;
     this.checkEndbossSound();
+    this.speed = 15;
   }
 
   /**
@@ -158,12 +159,39 @@ class Endboss extends MovableObject {
    * @instance
    */
   moveToPlayer() {
-    const player = world.character.x;
-    const distanceX = Math.abs(this.x - player);
-    if (distanceX < 400) {
+    const playerX = world.character.x;
+    const distanceX = Math.abs(this.x - playerX);
+
+    if (distanceX < 400 && this.x > playerX) {
       this.moveLeft();
-    } else if (distanceX > 20) {
-      this.x += this.speed = 17;
+      this.otherDirectionFight();
+    } else if (distanceX < 400 && this.x < playerX) {
+      this.moveRight();
+      this.otherDirectionFight();
+    } else {
+      if (this.x > playerX) {
+        this.moveLeft();
+        this.speed = 25;
+      } else {
+        this.moveRight();
+        this.speed = 25;
+      }
+    }
+  }
+
+  /**
+   * Sets the other direction flag of the Endboss according to the current position
+   * of the character. If the character is to the left of the Endboss, the flag is
+   * set to true. Otherwise, it is set to false.
+   * @memberof Endboss
+   * @instance
+   */
+  otherDirectionFight() {
+    if (this.x < world.character.x) {
+      this.otherDirection = true;
+    }
+    if (this.x > world.character.x) {
+      this.otherDirection = false;
     }
   }
 
@@ -185,7 +213,7 @@ class Endboss extends MovableObject {
       this.playAnimate(this.imgAtackingBoss);
     } else if (this.alertBoss) {
       this.playAnimate(this.imgWalkingBoss);
-      this.moveLeft();
+      this.moveToPlayer();
     } else {
       this.playAnimate(this.imgAlertBoss);
     }

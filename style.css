@@ -286,7 +286,8 @@ h1 {
     display: none;
   }
 
-  .descr {
+  .descr,
+  .decrtwo {
     display: none;
   }
 
@@ -374,7 +375,8 @@ h1 {
     margin-right: 184px;
   }
 
-  .descr {
+  .descr,
+  .decrtwo {
     display: none;
   }
 
@@ -435,7 +437,8 @@ h1 {
     display: none;
   }
 
-  .descr {
+  .descr,
+  .decrtwo {
     display: none;
   }
 }

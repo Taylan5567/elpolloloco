@@ -93,7 +93,7 @@ class Character extends MovableObject {
     this.energy = 100;
     this.dead = false;
     this.deadFall();
-    this.speed = 5;
+    this.speed = 15;
   }
 
   /**
