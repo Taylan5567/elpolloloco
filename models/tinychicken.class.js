@@ -7,7 +7,7 @@ class TinyChicken extends Chicken {
 
   imgDead = ["img/3_enemies_chicken/chicken_small/2_dead/dead.png"];
 
-  offset = { top: 20, left: 0, right: 0, bottom: 5 };
+  offset = { top: 0, left: 0, right: 0, bottom: 0 };
 
   /**
    * Creates a new TinyChicken object.
@@ -47,6 +47,6 @@ class TinyChicken extends Chicken {
         this.playAnimate(this.imgWalking);
         this.moveLeft();
       }
-    }, 1000 / 20);
+    }, 1000 / 9);
   }
 }

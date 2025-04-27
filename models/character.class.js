@@ -93,7 +93,7 @@ class Character extends MovableObject {
     this.energy = 100;
     this.dead = false;
     this.deadFall();
-    this.speed = 15;
+    this.speed = 8;
   }
 
   /**
@@ -160,7 +160,9 @@ class Character extends MovableObject {
         this.speedY = 15;
         this.lastMove = new Date().getTime();
       }
+    }, 1000 / 60);
 
+    setInterval(() => {
       if (this.dead) {
         this.playAnimate(this.imgDead);
       } else if (this.IsAboveGround()) {
@@ -173,12 +175,12 @@ class Character extends MovableObject {
       } else if (this.world.keyboard.LEFT || this.world.keyboard.RIGHT) {
         this.playAnimate(this.imgWalking);
       }
-    }, 1000 / 30);
+    }, 150);
 
     setInterval(() => {
       if (this.IsAboveGround()) {
         this.playAnimate(this.imgJumping);
       }
-    }, 1000 / 9);
+    }, 120);
   }
 }

@@ -324,3 +324,18 @@ function initializeMuteState() {
     world.audio.pauseAudio();
   }
 }
+
+/**
+ * This function is called when the window is fully loaded and all
+ * resources are available. It initializes the game by calling the
+ * init() function, checks if the game has ended, initializes the level,
+ * and sets the mute state of the game to the value stored in localStorage.
+ * @memberof Game
+ * @instance
+ */
+window.onload = () => {
+  init();
+  initLevel();
+  initializeMuteState();
+  checkGameEnd();
+};

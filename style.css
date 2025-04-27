@@ -118,7 +118,7 @@ button {
 
 h1 {
   text-align: center;
-  margin: auto;
+  margin: 63px;
   font-size: 50px;
 }
 
@@ -197,6 +197,75 @@ h1 {
 
 .hidden {
   display: none !important;
+}
+
+@media screen and (max-width: 600px) {
+  canvas {
+    display: none;
+  }
+
+  .descr,
+  .decrtwo {
+    display: none;
+  }
+
+  h1 {
+    display: none;
+  }
+
+  .canvasContainer {
+    display: none;
+  }
+
+  .controlMobileleft {
+    position: absolute;
+    display: none;
+    gap: 20px;
+    font-size: 10px;
+    padding: 8px 30px;
+    margin-bottom: 20px;
+    margin-right: 370px;
+  }
+
+  .controlMobileright {
+    position: absolute;
+    display: none;
+    gap: 20px;
+    font-size: 10px;
+    padding: 8px 30px;
+    margin-bottom: 20px;
+    margin-right: 184px;
+  }
+
+  .controlMobilejump {
+    position: absolute;
+    display: none;
+    gap: 20px;
+    font-size: 15px;
+    padding: 8px 30px;
+    margin-bottom: 20px;
+    margin-left: 184px;
+  }
+
+  .controlMobilethrow {
+    position: absolute;
+    display: none;
+    gap: 20px;
+    font-size: 10px;
+    padding: 8px 30px;
+    margin-bottom: 20px;
+    margin-left: 370px;
+  }
+
+  .mute {
+    position: absolute;
+    display: none;
+    gap: 20px;
+    font-size: 10px;
+    padding: 8px 30px;
+    margin-bottom: 20px;
+    margin-left: 370px;
+  }
 }
 
 @media only screen and (max-width: 600px) {
@@ -278,167 +347,5 @@ h1 {
   .gameOverButton {
     font-size: 25px;
     cursor: pointer;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  canvas {
-    display: none;
-  }
-
-  .descr,
-  .decrtwo {
-    display: none;
-  }
-
-  h1 {
-    display: none;
-  }
-
-  .canvasContainer {
-    display: none;
-  }
-
-  .controlMobileleft {
-    position: absolute;
-    display: none;
-    gap: 20px;
-    font-size: 10px;
-    padding: 8px 30px;
-    margin-bottom: 20px;
-    margin-right: 370px;
-  }
-
-  .controlMobileright {
-    position: absolute;
-    display: none;
-    gap: 20px;
-    font-size: 10px;
-    padding: 8px 30px;
-    margin-bottom: 20px;
-    margin-right: 184px;
-  }
-
-  .controlMobilejump {
-    position: absolute;
-    display: none;
-    gap: 20px;
-    font-size: 15px;
-    padding: 8px 30px;
-    margin-bottom: 20px;
-    margin-left: 184px;
-  }
-
-  .controlMobilethrow {
-    position: absolute;
-    display: none;
-    gap: 20px;
-    font-size: 10px;
-    padding: 8px 30px;
-    margin-bottom: 20px;
-    margin-left: 370px;
-  }
-
-  .mute {
-    position: absolute;
-    display: none;
-    gap: 20px;
-    font-size: 10px;
-    padding: 8px 30px;
-    margin-bottom: 20px;
-    margin-left: 370px;
-  }
-}
-
-@media screen and (max-height: 600px) {
-  h1 {
-    display: none;
-  }
-
-  .controlMobileleft {
-    position: absolute;
-    display: none;
-    gap: 20px;
-    font-size: 10px;
-    padding: 8px 30px;
-    margin-bottom: 20px;
-    margin-right: 370px;
-  }
-
-  .controlMobileright {
-    position: absolute;
-    display: none;
-    gap: 20px;
-    font-size: 10px;
-    padding: 8px 30px;
-    margin-bottom: 20px;
-    margin-right: 184px;
-  }
-
-  .descr,
-  .decrtwo {
-    display: none;
-  }
-
-  canvas {
-    height: 105vh;
-    width: 100vw;
-    object-fit: fill;
-    margin: auto;
-  }
-
-  #mute {
-    margin-left: 576px;
-    margin-bottom: 33px;
-  }
-
-  .controlMobilejump {
-    position: absolute;
-    display: none;
-    gap: 20px;
-    font-size: 15px;
-    padding: 8px 30px;
-    margin-bottom: 20px;
-    margin-left: 184px;
-  }
-
-  .controlMobilethrow {
-    position: absolute;
-    display: none;
-    gap: 20px;
-    font-size: 15px;
-    padding: 8px 30px;
-    margin-bottom: 20px;
-    margin-left: 390px;
-  }
-
-  .mute {
-    position: absolute;
-    display: none;
-    gap: 20px;
-    font-size: 15px;
-    padding: 8px 30px;
-    margin-bottom: 20px;
-    margin-left: 390px;
-  }
-
-  #youwinbackground {
-    width: 100vw;
-    height: 105vh;
-  }
-}
-
-@media screen and (min-height: 600px) and (max-height: 700px) {
-  .controlMobileleft,
-  .controlMobileright,
-  .controlMobilejump,
-  .controlMobilethrow,
-  .mute {
-    display: none;
-  }
-
-  .descr,
-  .decrtwo {
-    display: none;
   }
 }
