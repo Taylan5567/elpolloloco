@@ -61,6 +61,13 @@ function checkOrientation() {
   }
 }
 
+/**
+ * Hides the game canvas and the description elements, and shows the overlay
+ * element to inform the user to rotate the device. This is used when the
+ * device is in portrait mode.
+ * @memberof Game
+ * @instance
+ */
 function hideAllGame() {
   document.getElementById("canvas").style.display = "none";
   overlay.style.display = "block";
@@ -74,7 +81,7 @@ function showAllGame() {
   overlay.style.display = "none";
   if (!innerHeight > 800) {
     document.getElementById("descr").style.display = "none";
-  } else if (innerHeight < 500) {
+  } else if (innerHeight < 600) {
     document.getElementById("ueber").style.display = "none";
   }
 }

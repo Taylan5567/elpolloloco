@@ -174,7 +174,7 @@ h1 {
 #mute {
   position: fixed;
   margin-left: 576px;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
   padding: 4px 15px;
 }
 
@@ -223,7 +223,6 @@ h1 {
     gap: 20px;
     font-size: 10px;
     padding: 8px 30px;
-    margin-bottom: 20px;
     margin-right: 370px;
   }
 
@@ -233,7 +232,6 @@ h1 {
     gap: 20px;
     font-size: 10px;
     padding: 8px 30px;
-    margin-bottom: 20px;
     margin-right: 184px;
   }
 
@@ -243,7 +241,6 @@ h1 {
     gap: 20px;
     font-size: 15px;
     padding: 8px 30px;
-    margin-bottom: 20px;
     margin-left: 184px;
   }
 
@@ -253,7 +250,6 @@ h1 {
     gap: 20px;
     font-size: 10px;
     padding: 8px 30px;
-    margin-bottom: 20px;
     margin-left: 370px;
   }
 
@@ -263,7 +259,6 @@ h1 {
     gap: 20px;
     font-size: 10px;
     padding: 8px 30px;
-    margin-bottom: 20px;
     margin-left: 370px;
   }
 }
