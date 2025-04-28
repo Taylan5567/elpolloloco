@@ -1,6 +1,6 @@
 class Bottle extends DrawableObject {
   world;
-  offset = { top: 10, left: 45, right: 25, bottom: 5 };
+  offset = { top: 10, left: 100, right: 25, bottom: 5 };
   character;
   endboss;
 
@@ -24,5 +24,6 @@ class Bottle extends DrawableObject {
     this.height = 90;
     this.width = 100;
     this.isSplashing = false;
+    this.offset = { top: 0, left: 0, right: 0, bottom: 0 };
   }
 }

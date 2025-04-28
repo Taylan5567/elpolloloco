@@ -38,7 +38,7 @@ p {
   justify-content: center;
   align-items: flex-end;
   flex-direction: row-reverse;
-  gap: 90px;
+  gap: 80px;
   margin: auto;
 }
 
@@ -128,7 +128,7 @@ h1 {
   top: 0;
   background-color: rgba(0, 0, 0, 0.7);
   width: 100%;
-  height: 100%;
+  height: 100vh;
 }
 
 .iconContainer {
@@ -174,7 +174,7 @@ h1 {
 #mute {
   position: fixed;
   margin-left: 576px;
-  margin-bottom: 15px;
+  margin-bottom: 30px;
   padding: 4px 15px;
 }
 
@@ -185,7 +185,7 @@ h1 {
 #youwin,
 #youlost {
   position: absolute;
-  height: 256px;
+  height: 200px;
   margin-bottom: 115px;
 }
 
@@ -268,11 +268,7 @@ h1 {
   }
 }
 
-@media only screen and (max-width: 600px) {
-  .overlay {
-    display: block;
-  }
-
+@media only screen and (max-width: 1500px) {
   .overlay .phone {
     animation: sizeIncrease 0.5s forwards ease,
       borderIncrease 0.5s 0.5s forwards ease, rotateRight 0.7s 1s forwards ease;
@@ -320,10 +316,10 @@ h1 {
   }
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (min-width: 916px) and (max-width: 950px) {
   canvas {
-    width: 95%;
-    height: 95%;
+    width: 100vw;
+    height: 100vh;
   }
 
   .descr {

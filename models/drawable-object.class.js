@@ -5,6 +5,12 @@ class DrawableObject {
   y = 180;
   height = 250;
   width = 100;
+  offset = {
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  };
 
   /**
    * Draws the image of the DrawableObject onto the canvas context at its current position.
@@ -46,13 +52,11 @@ class DrawableObject {
    * @returns {boolean} - True if the objects are colliding, false otherwise.
    */
   isColliding(mo) {
-    const myBox = this.getHitbox();
-    const otherBox = mo.getHitbox();
     return (
-      myBox.x + myBox.width > otherBox.x &&
-      myBox.y + myBox.height > otherBox.y &&
-      myBox.x < otherBox.x + otherBox.width &&
-      myBox.y < otherBox.y + otherBox.height
+      this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
+      this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
+      this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
+      this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom
     );
   }
 
@@ -62,13 +66,15 @@ class DrawableObject {
    * The hitbox is used to check for collisions with other objects.
    * @returns {Object} - The hitbox of the object.
    */
-  getHitbox() {
-    return {
-      x: this.x + this.offset.left,
-      y: this.y + this.offset.top,
-      width: this.width - this.offset.left - this.offset.right,
-      height: this.height - this.offset.top - this.offset.bottom,
-    };
+  getHitbox(mo) {
+    return (
+      this.speedY < 0 &&
+      this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
+      this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
+      this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
+      this.y + this.height - this.offset.bottom < mo.y + mo.offset.top + 40 &&
+      this.y + this.offset.top < mo.y
+    );
   }
 
   /**

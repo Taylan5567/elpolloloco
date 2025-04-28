@@ -24,42 +24,20 @@ class GameAudio {
   }
 
   /**
-   * Checks the mute state every 100ms and plays or pauses the audio accordingly.
-   * If the audio is muted, it plays the audio. If the audio is not muted, it pauses the audio.
-   * The interval is cleared after its first execution to prevent continuous checking.
-   * @method checkMuted
-   * @memberof GameAudio
-   * @instance
-   */
-  checkMuted() {
-    const intervalMute = setInterval(() => {
-      if (this.isMuted) {
-        this.playAudio();
-      } else {
-        this.isMuted = false;
-        this.pauseAudio();
-      }
-    }, 100);
-    clearInterval(intervalMute);
-  }
-
-  /**
    * Plays the endboss sound and pauses the background music.
    * @method playEndbossSound
    * @memberof GameAudio
    * @instance
    */
   playEndbossSound() {
-    if (!this.isMuted || world.endboss.hadFirstContact) {
-      this.playerEndbossSound();
-    }
-    setInterval(() => {
-      if (this.isMuted) {
-        this.endbossSound.pause();
-      } else if (world.endboss.hadFirstContact) {
-        this.playerEndbossSound();
+    if (!this.isMuted && world.endboss.hadFirstContact) {
+      this.playerEndbossSound(); // Spiele den Endboss-Sound
+    } else {
+      this.endbossSound.pause(); // Pausiere den Endboss-Sound
+      if (!this.isMuted) {
+        this.backgroundMusic.play(); // Spiele den Hintergrundsound
       }
-    }, 100);
+    }
   }
 
   /**
@@ -70,10 +48,11 @@ class GameAudio {
    * @instance
    */
   playerEndbossSound() {
-    this.endbossSound.play();
     this.endbossSound.volume = 1;
-    this.backgroundMusic.pause();
-    this.endbossSound.currentTime = 0;
+    this.backgroundMusic.pause(); // Pausiere den Hintergrundsound
+    if (this.endbossSound.paused) {
+      this.endbossSound.play(); // Spiele den Endboss-Sound nur, wenn er pausiert ist
+    }
   }
 
   /**
@@ -83,8 +62,10 @@ class GameAudio {
    * @instance
    */
   playBackgroundMusic() {
-    if (!this.isMuted) {
+    if (!this.isMuted && world.isGameStarted) {
       this.backgroundMusic.currentTime = 0;
+      this.backgroundMusic.play();
+    } else if (!world.endboss.hadFirstContact) {
       this.backgroundMusic.play();
     }
   }
@@ -96,8 +77,8 @@ class GameAudio {
    * @instance
    */
   pauseAudio() {
-    this.endbossSound.volume = 0;
     this.backgroundMusic.volume = 0;
+    this.endbossSound.volume = 0;
     this.coinSound.volume = 0;
     this.bottleSound.volume = 0;
     this.hitSound.volume = 0;
@@ -113,6 +94,7 @@ class GameAudio {
    */
   playAudio() {
     this.backgroundMusic.volume = 1;
+    this.endbossSound.volume = 1;
     this.coinSound.volume = 1;
     this.bottleSound.volume = 1;
     this.hitSound.volume = 1;

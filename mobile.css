@@ -40,7 +40,7 @@
   }
 }
 
-@media screen and (max-height: 850px) {
+@media screen and (max-height: 950px) {
   h1 {
     margin: 10px !important;
   }
@@ -55,7 +55,16 @@
   }
 }
 
-@media screen and (min-height: 600px) and (max-height: 700px) {
+@media screen and (max-width: 700px) {
+  #youwin,
+  #youlost {
+    position: absolute;
+    height: 200px !important;
+    margin-bottom: 115px;
+  }
+}
+
+@media screen and (min-height: 600px) and (max-height: 800px) {
   .controlMobileleft,
   .controlMobileright,
   .controlMobilejump,
@@ -112,11 +121,6 @@
     margin: auto;
   }
 
-  #mute {
-    margin-left: 576px;
-    margin-bottom: 33px;
-  }
-
   .controlMobilejump {
     position: absolute;
     display: none;
@@ -143,12 +147,21 @@
     gap: 20px;
     font-size: 15px;
     padding: 8px 30px;
-    margin-bottom: 20px;
+    margin-bottom: 50px;
     margin-left: 390px;
   }
 
   #youwinbackground {
     width: 100vw !important;
     height: 100vh !important;
+  }
+
+  @media screen and (min-width: 700px) and (min-height: 500px) {
+    #youwin,
+    #youlost {
+      position: absolute;
+      height: 199px;
+      margin-bottom: 115px;
+    }
   }
 }

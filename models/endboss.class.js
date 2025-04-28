@@ -5,7 +5,6 @@ class Endboss extends MovableObject {
   isFighting = false;
   animateInterval = null;
   energy = 99;
-  hadFirstContact = false;
   characterDirection;
   speed = 15;
   currentImage = 0;
@@ -75,6 +74,7 @@ class Endboss extends MovableObject {
     this.lastHitTime = null;
     this.checkEndbossSound();
     this.speed = 15;
+    this.hadFirstContact = false;
   }
 
   /**

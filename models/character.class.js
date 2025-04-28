@@ -1,7 +1,6 @@
 class Character extends MovableObject {
   world;
   currentImage = 0;
-  speed = 15;
 
   offset = { top: 95, left: 15, right: 25, bottom: 5 };
 
@@ -94,6 +93,8 @@ class Character extends MovableObject {
     this.dead = false;
     this.deadFall();
     this.speed = 8;
+    this.dead = false;
+    this.speedY = 0;
   }
 
   /**
@@ -157,7 +158,7 @@ class Character extends MovableObject {
       }
 
       if (this.world.keyboard.SPACE && !this.IsAboveGround()) {
-        this.speedY = 15;
+        this.speedY = 20;
         this.lastMove = new Date().getTime();
       }
     }, 1000 / 60);
@@ -175,12 +176,12 @@ class Character extends MovableObject {
       } else if (this.world.keyboard.LEFT || this.world.keyboard.RIGHT) {
         this.playAnimate(this.imgWalking);
       }
-    }, 150);
+    }, 200);
 
     setInterval(() => {
       if (this.IsAboveGround()) {
         this.playAnimate(this.imgJumping);
       }
-    }, 120);
+    }, 200);
   }
 }

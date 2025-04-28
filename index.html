@@ -38,10 +38,11 @@
     <script src="./models/start.class.js"></script>
     <script src="./models/bottle.class.js"></script>
     <script src="./models/endscreen.class.js"></script>
+    <script src="./js/mobile.js"></script>
     <script src="./js/game.js"></script>
   </head>
   <body>
-    <h1>El Pollo Loco</h1>
+    <h1 id="ueber">El Pollo Loco</h1>
     <div id="canvasContainers" class="canvasContainer">
       <canvas id="canvas" width="720" height="480"> </canvas>
       <img
@@ -94,7 +95,7 @@
       </button>
     </div>
 
-    <div class="overlay">
+    <div class="overlay" id="overlay">
       <div class="iconContainer">
         <div class="phone">
           <i class="fa fa-repeat"></i>
@@ -102,7 +103,7 @@
         <p>Rotate your device!</p>
       </div>
     </div>
-    <div class="decrtwo">
+    <div class="decrtwo" id="descr">
       <h2>How to Play</h2>
       <div class="descr">
         <div class="imprint">

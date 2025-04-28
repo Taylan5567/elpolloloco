@@ -49,7 +49,6 @@ class World {
     initLevel();
     this.level = levelOne;
     this.setWorld();
-    this.audio.checkMuted();
     this.endboss = new Endboss();
     this.endboss.world = this;
     this.run();
@@ -103,11 +102,12 @@ class World {
    * @function restartGame
    */
   restartGame() {
-    this.resetGameState(); // Setze Spielzustände zurück
-    this.resetGameObjects(); // Setze Spielobjekte zurück
-    this.isGameStarted = true; // Starte das Spiel neu
+    this.resetGameState();
+    this.resetGameObjects();
+    this.isGameStarted = true;
     this.gameRestart = true;
     this.audio.playBackgroundMusic();
+    this.endboss.hadFirstContact = false;
     setTimeout(() => {
       this.gameRestart = false;
     }, 5000);
@@ -199,12 +199,12 @@ class World {
       this.checkThrowObjects();
       this.checkCollectCoin();
       this.checkCollectBottle();
-    }, 200);
+    }, 20);
     setInterval(() => {
       if (!this.gameOver) {
         this.checkCollisions();
       }
-    }, 50);
+    }, 20);
   }
 
   /* Checks for collisions between the character and enemies, and between thrown bottles and enemies and the endboss. */
@@ -225,10 +225,7 @@ class World {
   checkEnemyCollision(enemy) {
     if (enemy.dead) return;
     if (!this.character.isColliding(enemy)) return;
-    const { y, height } = this.character.getHitbox();
-    const charBottom = y + height;
-    const enemyTop = enemy.getHitbox().y;
-    if (charBottom - 10 < enemyTop) {
+    if (this.character.getHitbox(enemy)) {
       this.checkChickenhit(enemy);
       this.character.jumpOnEnemy();
     } else {
@@ -255,11 +252,11 @@ class World {
   }
 
   /* Handles collisions between the character and the endboss, updating energy and stats accordingly. */
-  checkEndbossCollision() {
-    if (!this.endboss || !this.character.isColliding(this.endboss)) return;
-    const charBox = this.character.getHitbox();
-    const bossBox = this.endboss.getHitbox();
-    if (charBox.y + charBox.height - 10 < bossBox.y) {
+  checkEndbossCollision(endboss) {
+    if (!endboss || !this.character.isColliding(endboss) || endboss.dead)
+      return;
+    if (!this.character.isColliding(endboss)) return;
+    if (this.character.getHitbox(endboss)) {
       this.character.jumpOnEnemy();
       this.endboss.hit();
       this.bossStats.setPrecentage(this.endboss.energy);

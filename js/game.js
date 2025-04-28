@@ -73,7 +73,7 @@ function startEngine() {
   document.getElementById("mute").style.display = "block";
 
   setInterval(() => {
-    if (window.innerHeight < 600) {
+    if (window.innerHeight < 600 || isMobileOrTablet()) {
       document.getElementById("right").style.display = "block";
       document.getElementById("left").style.display = "block";
       document.getElementById("jump").style.display = "block";
@@ -112,6 +112,12 @@ function moveLeftMobile() {
   });
 }
 
+/**
+ * Handles the touchstart and touchend events for the "right" button in
+ * mobile mode. When the button is pressed, it sets the RIGHT key to true, and
+ * when the button is released, it sets the RIGHT key to false. This
+ * allows the player to move right when the button is pressed.
+ */
 function moveRightMobile() {
   document.getElementById("right").addEventListener("touchstart", () => {
     keyboard.RIGHT = true;
@@ -153,12 +159,8 @@ function throwMobile() {
 
 /**
  * Toggles the mute state of the game's background music. When called,
- * it checks the current volume of the background music. If muted (volume is 0),
- * it sets the volume back to 1 and updates the mute button icon to indicate sound is on.
- * If not muted, it mutes the background music by setting the volume to 0 and updates
- * the mute button icon to indicate sound is off.
+ * it checks the current volume of the background music.
  */
-
 function muteGame() {
   const isMuted = world.audio.isMuted;
   world.audio.isMuted = !isMuted;
@@ -256,10 +258,7 @@ function hideGameControls() {
   document.getElementById("throw").classList.add("hidden");
 }
 
-/**
- * Hides all game controls (right, left, jump, throw) by setting their
- * display property to "none". This is used to stop the game when the
- * boss or the character are dead.
+/** This is used to stop the game when the boss or the character are dead.
  * @memberof Game
  * @instance
  */
@@ -270,8 +269,7 @@ function showGameControls() {
   document.getElementById("throw").classList.remove("hidden");
 }
 /**
- * Stops the game by calling the stopGame() method on the world object
- * when the boss or the character are dead.
+ * Stops the game by calling the stopGame() method on the world object when the boss or the character are dead.
  */
 function gameStop() {
   if (world.endboss.dead || world.character.dead) {
@@ -305,9 +303,7 @@ function restartGame() {
 
 /**
  * Initializes the mute state of the game by reading the state from localStorage,
- * updating the mute button icon accordingly, and either pausing or playing the
- * audio based on the state. This function is called at the beginning of the game
- * to ensure the mute state is properly set.
+ * updating the mute button icon accordingly, and either pausing or playing the audio based on the state.
  */
 function initializeMuteState() {
   const isMuted = localStorage.getItem("isMuted") === "true"; // Lese den Zustand aus localStorage
@@ -325,17 +321,16 @@ function initializeMuteState() {
   }
 }
 
-/**
- * This function is called when the window is fully loaded and all
- * resources are available. It initializes the game by calling the
- * init() function, checks if the game has ended, initializes the level,
- * and sets the mute state of the game to the value stored in localStorage.
- * @memberof Game
- * @instance
- */
 window.onload = () => {
   init();
   initLevel();
   initializeMuteState();
   checkGameEnd();
+  toggleControls();
+  checkOrientation();
 };
+
+window.addEventListener("resize", () => {
+  toggleControls();
+  checkOrientation();
+});
