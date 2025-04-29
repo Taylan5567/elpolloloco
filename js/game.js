@@ -328,9 +328,11 @@ window.onload = () => {
   checkGameEnd();
   toggleControls();
   checkOrientation();
+  disableInteractionOnMobile();
 };
 
 window.addEventListener("resize", () => {
   toggleControls();
   checkOrientation();
+  disableInteractionOnMobile();
 });

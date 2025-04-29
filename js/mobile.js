@@ -62,6 +62,25 @@ function checkOrientation() {
 }
 
 /**
+ * Disables the context menu on all buttons for mobile or tablet devices.
+ * This prevents the default behavior (e.g., showing a context menu) when a button is long-pressed.
+ * If the device is not mobile or tablet, it removes the "no-interaction" class from the body.
+ *
+ * @function disableInteractionOnMobile
+ * @memberof Mobile
+ * @instance
+ */
+function disableInteractionOnMobile() {
+  if (isMobileOrTablet()) {
+    document.querySelectorAll("button").forEach((button) => {
+      button.addEventListener("contextmenu", (event) => {
+        event.preventDefault();
+      });
+    });
+  }
+}
+
+/**
  * Hides the game canvas and the description elements, and shows the overlay
  * element to inform the user to rotate the device. This is used when the
  * device is in portrait mode.
@@ -75,6 +94,14 @@ function hideAllGame() {
   document.getElementById("ueber").style.display = "none";
 }
 
+/**
+ * Displays the game canvas and other game elements while hiding the overlay.
+ * Adjusts the visibility of specific elements based on the screen height.
+ *
+ * @function showAllGame
+ * @memberof Mobile
+ * @instance
+ */
 function showAllGame() {
   document.getElementById("canvas").style.display = "block";
   document.getElementById("ueber").style.display = "block";

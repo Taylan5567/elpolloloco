@@ -340,3 +340,11 @@ h1 {
     cursor: pointer;
   }
 }
+
+.no-interaction {
+  pointer-events: none; /* Verhindert jegliche Interaktion */
+}
+
+.no-interaction button {
+  pointer-events: auto; /* Buttons bleiben aktiv */
+}
