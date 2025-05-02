@@ -134,4 +134,45 @@ function toggleControls() {
       document.getElementById("throw").style.display = "none";
     }
   }
+
+  function setupButtonEvents() {
+    const leftButton = document.getElementById("left");
+    const rightButton = document.getElementById("right");
+    const jumpButton = document.getElementById("jump");
+    const throwButton = document.getElementById("throw");
+
+    [leftButton, rightButton, jumpButton, throwButton].forEach((button) => {
+      button.addEventListener("touchstart", (event) => {
+        event.preventDefault(); // Verhindert unerwünschte Standardaktionen
+        handleButtonAction(button.id);
+      });
+
+      button.addEventListener("click", (event) => {
+        event.preventDefault(); // Verhindert unerwünschte Standardaktionen
+        handleButtonAction(button.id);
+      });
+    });
+  }
+
+  function handleButtonAction(buttonId) {
+    switch (buttonId) {
+      case "left":
+        console.log("Move left");
+        moveLeftMobile();
+        break;
+      case "right":
+        console.log("Move right");
+        moveRightMobile();
+        break;
+      case "jump":
+        console.log("Jump");
+        jumpMobile();
+        break;
+      case "throw":
+        console.log("Throw");
+        throwMobile();
+        break;
+    }
+  }
+  window.onload = setupButtonEvents;
 }

@@ -24,7 +24,7 @@ function initLevel() {
     [
       new BackgroundObject(
         "img/5_background/layers/air.png",
-        -720,
+        -719,
         0,
         1200,
         400

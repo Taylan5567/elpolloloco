@@ -98,65 +98,111 @@ function gameOver() {
 }
 
 /**
- * Handles the touchstart and touchend events for the "left" button in
- * mobile mode. When the button is pressed, it sets the LEFT key to true, and
- * when the button is released, it sets the LEFT key to false. This
- * allows the player to move left when the button is pressed.
+ * Adds event listeners to a button for both mobile and desktop devices.
+ * It will listen for touchstart, touchend, and touchcancel events for
+ * mobile devices and mousedown, mouseup, and mouseleave events for
+ * desktop devices. When the button is pressed, it will call the
+ * activate() function, which should activate the corresponding key
+ * in the Keyboard object. When the button is released, it will call
+ * the deactivate() function, which should deactivate the corresponding
+ * key in the Keyboard object.
+ * @param {string} buttonId The id of the button element.
+ * @param {string} key The key in the Keyboard object to activate/deactivate.
+ * @function addMobileAndDesktopControls
  */
-function moveLeftMobile() {
-  document.getElementById("left").addEventListener("touchstart", () => {
-    keyboard.LEFT = true;
-  });
-  document.getElementById("left").addEventListener("touchend", () => {
-    keyboard.LEFT = false;
+function addMobileAndDesktopControls(buttonId, key) {
+  const button = document.getElementById(buttonId);
+  let isTouch = false;
+
+  const activate = () => {
+    keyboard[key] = true;
+    button.classList.add("active");
+  };
+
+  const deactivate = () => {
+    keyboard[key] = false;
+    button.classList.remove("active");
+  };
+
+  button.addEventListener(
+    "touchstart",
+    (e) => {
+      e.preventDefault(); // verhindert Scrollen, Kontextmenü etc.
+      isTouch = true;
+      activate();
+    },
+    { passive: false }
+  );
+
+  button.addEventListener(
+    "touchend",
+    (e) => {
+      e.preventDefault();
+      deactivate();
+      setTimeout(() => (isTouch = false), 100);
+    },
+    { passive: false }
+  );
+
+  button.addEventListener(
+    "touchcancel",
+    (e) => {
+      deactivate();
+    },
+    false
+  );
+
+  button.addEventListener(
+    "mousedown",
+    (e) => {
+      if (!isTouch) {
+        e.preventDefault();
+        activate();
+      }
+    },
+    false
+  );
+
+  button.addEventListener(
+    "mouseup",
+    (e) => {
+      if (!isTouch) {
+        e.preventDefault();
+        deactivate();
+      }
+    },
+    false
+  );
+
+  button.addEventListener("mouseleave", (e) => {
+    if (!isTouch) {
+      deactivate();
+    }
   });
 }
 
 /**
- * Handles the touchstart and touchend events for the "right" button in
- * mobile mode. When the button is pressed, it sets the RIGHT key to true, and
- * when the button is released, it sets the RIGHT key to false. This
- * allows the player to move right when the button is pressed.
+ * Sets up the game controls for both mobile and desktop devices.
+ * Each control is a button that is displayed on the screen and
+ * can be pressed by the user to control the game.
+ * @function setupControls
+ * @memberof Game
+ * @instance
  */
-function moveRightMobile() {
-  document.getElementById("right").addEventListener("touchstart", () => {
-    keyboard.RIGHT = true;
-  });
-  document.getElementById("right").addEventListener("touchend", () => {
-    keyboard.RIGHT = false;
-  });
+function setupControls() {
+  addMobileAndDesktopControls("throw", "D");
+  addMobileAndDesktopControls("jump", "SPACE");
+  addMobileAndDesktopControls("right", "RIGHT");
+  addMobileAndDesktopControls("left", "LEFT");
 }
 
-/**
- * Handles the touchstart and touchend events for the "jump" button in
- * mobile mode. When the button is pressed, it sets the SPACE key to true, and
- * when the button is released, it sets the SPACE key to false. This
- * allows the player to jump when the button is pressed.
- */
-function jumpMobile() {
-  document.getElementById("jump").addEventListener("touchstart", () => {
-    keyboard.SPACE = true;
-  });
-  document.getElementById("jump").addEventListener("touchend", () => {
-    keyboard.SPACE = false;
-  });
-}
+window.addEventListener("DOMContentLoaded", () => {
+  setupControls();
+});
 
-/**
- * Handles the touchstart and touchend events for the "throw" button in
- * mobile mode. When the button is pressed, it sets the D key to true, and
- * when the button is released, it sets the D key to false. This
- * allows the player to throw a fireball when the button is pressed.
- */
-function throwMobile() {
-  document.getElementById("throw").addEventListener("touchstart", () => {
-    keyboard.D = true;
-  });
-  document.getElementById("throw").addEventListener("touchend", () => {
-    keyboard.D = false;
-  });
-}
-
+document.addEventListener("contextmenu", function (e) {
+  e.preventDefault();
+});
 /**
  * Toggles the mute state of the game's background music. When called,
  * it checks the current volume of the background music.

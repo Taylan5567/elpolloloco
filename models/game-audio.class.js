@@ -8,19 +8,19 @@ class GameAudio {
   constructor() {
     this.backgroundMusic = new Audio("audio/background.mp3");
     this.backgroundMusic.loop = true;
-    this.backgroundMusic.volume = 1;
+    this.backgroundMusic.volume = 0.2;
 
     this.coinSound = new Audio("audio/coin.mp3");
-    this.coinSound.volume = 1;
+    this.coinSound.volume = 0.2;
 
     this.bottleSound = new Audio("audio/bottle.mp3");
-    this.bottleSound.volume = 1;
+    this.bottleSound.volume = 0.2;
 
     this.hitSound = new Audio("audio/hit.mp3");
-    this.hitSound.volume = 1;
+    this.hitSound.volume = 0.2;
 
     this.endbossSound = new Audio("audio/endboss.mp3");
-    this.endbossSound.volume = 1;
+    this.endbossSound.volume = 0.2;
   }
 
   /**
@@ -48,7 +48,7 @@ class GameAudio {
    * @instance
    */
   playerEndbossSound() {
-    this.endbossSound.volume = 1;
+    this.endbossSound.volume = 0.2;
     this.backgroundMusic.pause(); // Pausiere den Hintergrundsound
     if (this.endbossSound.paused) {
       this.endbossSound.play(); // Spiele den Endboss-Sound nur, wenn er pausiert ist
@@ -93,11 +93,11 @@ class GameAudio {
    * @instance
    */
   playAudio() {
-    this.backgroundMusic.volume = 1;
-    this.endbossSound.volume = 1;
-    this.coinSound.volume = 1;
-    this.bottleSound.volume = 1;
-    this.hitSound.volume = 1;
+    this.backgroundMusic.volume = 0.2;
+    this.endbossSound.volume = 0.2;
+    this.coinSound.volume = 0.2;
+    this.bottleSound.volume = 0.2;
+    this.hitSound.volume = 0.2;
   }
 
   /**
